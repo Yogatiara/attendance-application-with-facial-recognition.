@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "283185470403",
+    "project_id": "attandance-app-5ab21",
+    "storage_bucket": "attandance-app-5ab21.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:283185470403:android:420f28aa178c0683263b76",
+        "android_client_info": {
+          "package_name": "com.example.face_recognition_application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfwCSnGl9V4MWCm2KkB-AEsmIzsAgJAGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

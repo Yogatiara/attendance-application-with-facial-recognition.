@@ -1,0 +1,1622 @@
+[
+  {
+    "id": "2Xde7NvZjXW1yphMO18u",
+    "date": "6/22/2024",
+    "time": "16:30:00",
+    "temperature": "23.5",
+    "ph": "7.3",
+    "turbidity": "15",
+    "tds": "250.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19a",
+    "date": "6/22/2024",
+    "time": "16:30:02",
+    "temperature": "22.8",
+    "ph": "7.5",
+    "turbidity": "18",
+    "tds": "265.7"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19b",
+    "date": "6/22/2024",
+    "time": "16:30:04",
+    "temperature": "24.2",
+    "ph": "7.2",
+    "turbidity": "25",
+    "tds": "280.1"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19c",
+    "date": "6/22/2024",
+    "time": "16:30:06",
+    "temperature": "21.5",
+    "ph": "7.1",
+    "turbidity": "12",
+    "tds": "215.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19d",
+    "date": "6/22/2024",
+    "time": "16:30:08",
+    "temperature": "23.9",
+    "ph": "7.6",
+    "turbidity": "22",
+    "tds": "295.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19e",
+    "date": "6/22/2024",
+    "time": "16:30:10",
+    "temperature": "22.3",
+    "ph": "7.4",
+    "turbidity": "17",
+    "tds": "255.9"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19f",
+    "date": "6/22/2024",
+    "time": "16:30:12",
+    "temperature": "24.8",
+    "ph": "7.3",
+    "turbidity": "28",
+    "tds": "275.6"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19g",
+    "date": "6/22/2024",
+    "time": "16:30:14",
+    "temperature": "21.9",
+    "ph": "7.2",
+    "turbidity": "14",
+    "tds": "210.7"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19h",
+    "date": "6/22/2024",
+    "time": "16:30:16",
+    "temperature": "24.5",
+    "ph": "7.7",
+    "turbidity": "30",
+    "tds": "300.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19i",
+    "date": "6/22/2024",
+    "time": "16:30:18",
+    "temperature": "21.2",
+    "ph": "7.1",
+    "turbidity": "11",
+    "tds": "205.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19j",
+    "date": "6/22/2024",
+    "time": "16:30:20",
+    "temperature": "23.0",
+    "ph": "7.3",
+    "turbidity": "19",
+    "tds": "260.3"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19k",
+    "date": "6/22/2024",
+    "time": "16:30:22",
+    "temperature": "25.0",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "290.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19l",
+    "date": "6/22/2024",
+    "time": "16:30:24",
+    "temperature": "22.7",
+    "ph": "7.5",
+    "turbidity": "16",
+    "tds": "270.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19m",
+    "date": "6/22/2024",
+    "time": "16:30:26",
+    "temperature": "24.3",
+    "ph": "7.4",
+    "turbidity": "23",
+    "tds": "285.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19n",
+    "date": "6/22/2024",
+    "time": "16:30:28",
+    "temperature": "21.8",
+    "ph": "7.2",
+    "turbidity": "13",
+    "tds": "225.9"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19o",
+    "date": "6/22/2024",
+    "time": "16:30:30",
+    "temperature": "24.7",
+    "ph": "7.3",
+    "turbidity": "29",
+    "tds": "295.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19p",
+    "date": "6/22/2024",
+    "time": "16:30:32",
+    "temperature": "21.5",
+    "ph": "7.1",
+    "turbidity": "12",
+    "tds": "210.1"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19q",
+    "date": "6/22/2024",
+    "time": "16:30:34",
+    "temperature": "24.9",
+    "ph": "7.7",
+    "turbidity": "30",
+    "tds": "299.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19r",
+    "date": "6/22/2024",
+    "time": "16:30:36",
+    "temperature": "21.3",
+    "ph": "7.3",
+    "turbidity": "11",
+    "tds": "202.7"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19s",
+    "date": "6/22/2024",
+    "time": "16:30:38",
+    "temperature": "23.2",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "268.6"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19t",
+    "date": "6/22/2024",
+    "time": "16:30:40",
+    "temperature": "25.0",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "292.3"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19u",
+    "date": "6/22/2024",
+    "time": "16:30:42",
+    "temperature": "22.6",
+    "ph": "7.4",
+    "turbidity": "17",
+    "tds": "257.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19v",
+    "date": "6/22/2024",
+    "time": "16:30:44",
+    "temperature": "24.4",
+    "ph": "7.3",
+    "turbidity": "24",
+    "tds": "283.7"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19w",
+    "date": "6/22/2024",
+    "time": "16:30:46",
+    "temperature": "21.7",
+    "ph": "7.2",
+    "turbidity": "13",
+    "tds": "220.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19x",
+    "date": "6/22/2024",
+    "time": "16:30:48",
+    "temperature": "23.7",
+    "ph": "7.6",
+    "turbidity": "21",
+    "tds": "272.9"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19y",
+    "date": "6/22/2024",
+    "time": "16:30:50",
+    "temperature": "22.1",
+    "ph": "7.5",
+    "turbidity": "15",
+    "tds": "260.7"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19z",
+    "date": "6/22/2024",
+    "time": "16:30:52",
+    "temperature": "24.0",
+    "ph": "7.4",
+    "turbidity": "26",
+    "tds": "288.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO190",
+    "date": "6/22/2024",
+    "time": "16:30:54",
+    "temperature": "21.4",
+    "ph": "7.3",
+    "turbidity": "10",
+    "tds": "200.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO191",
+    "date": "6/22/2024",
+    "time": "16:30:56",
+    "temperature": "23.4",
+    "ph": "7.7",
+    "turbidity": "29",
+    "tds": "298.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO192",
+    "date": "6/22/2024",
+    "time": "16:30:58",
+    "temperature": "21.1",
+    "ph": "7.3",
+    "turbidity": "11",
+    "tds": "203.6"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO193",
+    "date": "6/22/2024",
+    "time": "16:31:00",
+    "temperature": "23.6",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "270.3"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO194",
+    "date": "6/22/2024",
+    "time": "16:31:02",
+    "temperature": "25.0",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "292.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO195",
+    "date": "6/22/2024",
+    "time": "16:31:04",
+    "temperature": "22.5",
+    "ph": "7.4",
+    "turbidity": "16",
+    "tds": "262.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO196",
+    "date": "6/22/2024",
+    "time": "16:31:06",
+    "temperature": "24.5",
+    "ph": "7.3",
+    "turbidity": "24",
+    "tds": "282.7"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO197",
+    "date": "6/22/2024",
+    "time": "16:31:08",
+    "temperature": "21.6",
+    "ph": "7.2",
+    "turbidity": "13",
+    "tds": "226.1"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO198",
+    "date": "6/22/2024",
+    "time": "16:31:10",
+    "temperature": "24.6",
+    "ph": "7.3",
+    "turbidity": "28",
+    "tds": "276.9"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO199",
+    "date": "6/22/2024",
+    "time": "16:31:12",
+    "temperature": "21.7",
+    "ph": "7.1",
+    "turbidity": "12",
+    "tds": "212.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19a",
+    "date": "6/22/2024",
+    "time": "16:31:14",
+    "temperature": "23.8",
+    "ph": "7.7",
+    "turbidity": "30",
+    "tds": "299.7"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19b",
+    "date": "6/22/2024",
+    "time": "16:31:16",
+    "temperature": "21.3",
+    "ph": "7.3",
+    "turbidity": "11",
+    "tds": "203.3"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19c",
+    "date": "6/22/2024",
+    "time": "16:31:18",
+    "temperature": "23.3",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "269.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19d",
+    "date": "6/22/2024",
+    "time": "16:31:20",
+    "temperature": "24.9",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "291.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19e",
+    "date": "6/22/2024",
+    "time": "16:31:22",
+    "temperature": "22.7",
+    "ph": "7.4",
+    "turbidity": "17",
+    "tds": "256.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19f",
+    "date": "6/22/2024",
+    "time": "16:31:24",
+    "temperature": "24.5",
+    "ph": "7.3",
+    "turbidity": "24",
+    "tds": "283.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19g",
+    "date": "6/22/2024",
+    "time": "16:31:26",
+    "temperature": "21.8",
+    "ph": "7.2",
+    "turbidity": "13",
+    "tds": "227.3"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19h",
+    "date": "6/22/2024",
+    "time": "16:31:28",
+    "temperature": "23.7",
+    "ph": "7.6",
+    "turbidity": "21",
+    "tds": "271.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19i",
+    "date": "6/22/2024",
+    "time": "16:31:30",
+    "temperature": "22.0",
+    "ph": "7.5",
+    "turbidity": "15",
+    "tds": "261.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19j",
+    "date": "6/22/2024",
+    "time": "16:31:32",
+    "temperature": "24.1",
+    "ph": "7.4",
+    "turbidity": "26",
+    "tds": "287.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19k",
+    "date": "6/22/2024",
+    "time": "16:31:34",
+    "temperature": "21.4",
+    "ph": "7.3",
+    "turbidity": "10",
+    "tds": "201.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19l",
+    "date": "6/22/2024",
+    "time": "16:31:36",
+    "temperature": "23.5",
+    "ph": "7.7",
+    "turbidity": "29",
+    "tds": "297.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19m",
+    "date": "6/22/2024",
+    "time": "16:31:38",
+    "temperature": "21.1",
+    "ph": "7.3",
+    "turbidity": "11",
+    "tds": "204.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19n",
+    "date": "6/22/2024",
+    "time": "16:31:40",
+    "temperature": "23.5",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "269.7"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19o",
+    "date": "6/22/2024",
+    "time": "16:31:42",
+    "temperature": "25.0",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "292.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19p",
+    "date": "6/22/2024",
+    "time": "16:31:44",
+    "temperature": "22.5",
+    "ph": "7.4",
+    "turbidity": "16",
+    "tds": "262.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19q",
+    "date": "6/22/2024",
+    "time": "16:31:46",
+    "temperature": "24.4",
+    "ph": "7.3",
+    "turbidity": "24",
+    "tds": "283.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19r",
+    "date": "6/22/2024",
+    "time": "16:31:48",
+    "temperature": "21.6",
+    "ph": "7.2",
+    "turbidity": "13",
+    "tds": "228.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19s",
+    "date": "6/22/2024",
+    "time": "16:31:50",
+    "temperature": "23.9",
+    "ph": "7.6",
+    "turbidity": "21",
+    "tds": "273.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19t",
+    "date": "6/22/2024",
+    "time": "16:31:52",
+    "temperature": "21.9",
+    "ph": "7.5",
+    "turbidity": "15",
+    "tds": "262.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19u",
+    "date": "6/22/2024",
+    "time": "16:31:54",
+    "temperature": "24.3",
+    "ph": "7.4",
+    "turbidity": "26",
+    "tds": "289.6"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19v",
+    "date": "6/22/2024",
+    "time": "16:31:56",
+    "temperature": "21.4",
+    "ph": "7.3",
+    "turbidity": "10",
+    "tds": "200.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19w",
+    "date": "6/22/2024",
+    "time": "16:31:58",
+    "temperature": "23.2",
+    "ph": "7.7",
+    "turbidity": "29",
+    "tds": "298.9"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19x",
+    "date": "6/22/2024",
+    "time": "16:32:00",
+    "temperature": "22.0",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "268.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19y",
+    "date": "6/22/2024",
+    "time": "16:32:02",
+    "temperature": "24.1",
+    "ph": "7.4",
+    "turbidity": "26",
+    "tds": "288.3"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19z",
+    "date": "6/22/2024",
+    "time": "16:32:04",
+    "temperature": "21.4",
+    "ph": "7.3",
+    "turbidity": "10",
+    "tds": "201.6"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO190",
+    "date": "6/22/2024",
+    "time": "16:32:06",
+    "temperature": "23.5",
+    "ph": "7.7",
+    "turbidity": "29",
+    "tds": "297.1"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO191",
+    "date": "6/22/2024",
+    "time": "16:32:08",
+    "temperature": "21.1",
+    "ph": "7.3",
+    "turbidity": "11",
+    "tds": "204.1"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO192",
+    "date": "6/22/2024",
+    "time": "16:32:10",
+    "temperature": "23.5",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "269.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO193",
+    "date": "6/22/2024",
+    "time": "16:32:12",
+    "temperature": "25.0",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "292.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO194",
+    "date": "6/22/2024",
+    "time": "16:32:14",
+    "temperature": "22.5",
+    "ph": "7.4",
+    "turbidity": "16",
+    "tds": "263.1"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO195",
+    "date": "6/22/2024",
+    "time": "16:32:16",
+    "temperature": "24.4",
+    "ph": "7.3",
+    "turbidity": "24",
+    "tds": "283.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO196",
+    "date": "6/22/2024",
+    "time": "16:32:18",
+    "temperature": "21.6",
+    "ph": "7.2",
+    "turbidity": "13",
+    "tds": "228.9"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO197",
+    "date": "6/22/2024",
+    "time": "16:32:20",
+    "temperature": "23.7",
+    "ph": "7.6",
+    "turbidity": "21",
+    "tds": "273.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO198",
+    "date": "6/22/2024",
+    "time": "16:32:22",
+    "temperature": "22.0",
+    "ph": "7.5",
+    "turbidity": "15",
+    "tds": "261.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO199",
+    "date": "6/22/2024",
+    "time": "16:32:24",
+    "temperature": "24.1",
+    "ph": "7.4",
+    "turbidity": "26",
+    "tds": "288.6"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19a",
+    "date": "6/22/2024",
+    "time": "16:32:26",
+    "temperature": "21.4",
+    "ph": "7.3",
+    "turbidity": "10",
+    "tds": "202.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19b",
+    "date": "6/22/2024",
+    "time": "16:32:28",
+    "temperature": "23.4",
+    "ph": "7.7",
+    "turbidity": "29",
+    "tds": "298.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19c",
+    "date": "6/22/2024",
+    "time": "16:32:30",
+    "temperature": "21.1",
+    "ph": "7.3",
+    "turbidity": "11",
+    "tds": "204.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19d",
+    "date": "6/22/2024",
+    "time": "16:32:32",
+    "temperature": "23.5",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "270.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19e",
+    "date": "6/22/2024",
+    "time": "16:32:34",
+    "temperature": "25.0",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "292.7"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19f",
+    "date": "6/22/2024",
+    "time": "16:32:36",
+    "temperature": "22.5",
+    "ph": "7.4",
+    "turbidity": "16",
+    "tds": "263.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19g",
+    "date": "6/22/2024",
+    "time": "16:32:38",
+    "temperature": "24.4",
+    "ph": "7.3",
+    "turbidity": "24",
+    "tds": "283.7"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19h",
+    "date": "6/22/2024",
+    "time": "16:32:40",
+    "temperature": "21.6",
+    "ph": "7.2",
+    "turbidity": "13",
+    "tds": "229.3"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19i",
+    "date": "6/22/2024",
+    "time": "16:32:42",
+    "temperature": "23.7",
+    "ph": "7.6",
+    "turbidity": "21",
+    "tds": "274.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19j",
+    "date": "6/22/2024",
+    "time": "16:32:44",
+    "temperature": "22.0",
+    "ph": "7.5",
+    "turbidity": "15",
+    "tds": "262.3"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19k",
+    "date": "6/22/2024",
+    "time": "16:32:46",
+    "temperature": "24.1",
+    "ph": "7.4",
+    "turbidity": "26",
+    "tds": "288.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19l",
+    "date": "6/22/2024",
+    "time": "16:32:48",
+    "temperature": "21.4",
+    "ph": "7.3",
+    "turbidity": "10",
+    "tds": "202.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19m",
+    "date": "6/22/2024",
+    "time": "16:32:50",
+    "temperature": "23.3",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "270.3"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19n",
+    "date": "6/22/2024",
+    "time": "16:32:52",
+    "temperature": "24.9",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "293.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19o",
+    "date": "6/22/2024",
+    "time": "16:32:54",
+    "temperature": "22.7",
+    "ph": "7.4",
+    "turbidity": "17",
+    "tds": "257.6"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19p",
+    "date": "6/22/2024",
+    "time": "16:32:56",
+    "temperature": "24.6",
+    "ph": "7.3",
+    "turbidity": "24",
+    "tds": "284.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19q",
+    "date": "6/22/2024",
+    "time": "16:32:58",
+    "temperature": "21.8",
+    "ph": "7.2",
+    "turbidity": "13",
+    "tds": "230.1"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19r",
+    "date": "6/22/2024",
+    "time": "16:33:00",
+    "temperature": "23.9",
+    "ph": "7.6",
+    "turbidity": "21",
+    "tds": "274.6"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19s",
+    "date": "6/22/2024",
+    "time": "16:33:02",
+    "temperature": "21.9",
+    "ph": "7.5",
+    "turbidity": "15",
+    "tds": "263.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19t",
+    "date": "6/22/2024",
+    "time": "16:33:04",
+    "temperature": "24.3",
+    "ph": "7.4",
+    "turbidity": "26",
+    "tds": "290.1"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19u",
+    "date": "6/22/2024",
+    "time": "16:33:06",
+    "temperature": "21.4",
+    "ph": "7.3",
+    "turbidity": "10",
+    "tds": "201.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19v",
+    "date": "6/22/2024",
+    "time": "16:33:08",
+    "temperature": "23.2",
+    "ph": "7.7",
+    "turbidity": "29",
+    "tds": "299.3"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19w",
+    "date": "6/22/2024",
+    "time": "16:33:10",
+    "temperature": "21.0",
+    "ph": "7.3",
+    "turbidity": "11",
+    "tds": "205.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19x",
+    "date": "6/22/2024",
+    "time": "16:33:12",
+    "temperature": "23.5",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "269.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19y",
+    "date": "6/22/2024",
+    "time": "16:33:14",
+    "temperature": "25.0",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "292.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19z",
+    "date": "6/22/2024",
+    "time": "16:33:16",
+    "temperature": "22.5",
+    "ph": "7.4",
+    "turbidity": "16",
+    "tds": "263.7"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO190",
+    "date": "6/22/2024",
+    "time": "16:33:18",
+    "temperature": "24.4",
+    "ph": "7.3",
+    "turbidity": "24",
+    "tds": "284.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO191",
+    "date": "6/22/2024",
+    "time": "16:33:20",
+    "temperature": "21.6",
+    "ph": "7.2",
+    "turbidity": "13",
+    "tds": "230.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO192",
+    "date": "6/22/2024",
+    "time": "16:33:22",
+    "temperature": "23.7",
+    "ph": "7.6",
+    "turbidity": "21",
+    "tds": "275.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO193",
+    "date": "6/22/2024",
+    "time": "16:33:24",
+    "temperature": "22.0",
+    "ph": "7.5",
+    "turbidity": "15",
+    "tds": "262.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO194",
+    "date": "6/22/2024",
+    "time": "16:33:26",
+    "temperature": "24.1",
+    "ph": "7.4",
+    "turbidity": "26",
+    "tds": "289.1"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO195",
+    "date": "6/22/2024",
+    "time": "16:33:28",
+    "temperature": "21.4",
+    "ph": "7.3",
+    "turbidity": "10",
+    "tds": "203.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO196",
+    "date": "6/22/2024",
+    "time": "16:33:30",
+    "temperature": "23.4",
+    "ph": "7.7",
+    "turbidity": "29",
+    "tds": "298.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO197",
+    "date": "6/22/2024",
+    "time": "16:33:32",
+    "temperature": "21.1",
+    "ph": "7.3",
+    "turbidity": "11",
+    "tds": "205.6"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO198",
+    "date": "6/22/2024",
+    "time": "16:33:34",
+    "temperature": "23.5",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "270.3"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO199",
+    "date": "6/22/2024",
+    "time": "16:33:36",
+    "temperature": "25.0",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "293.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19a",
+    "date": "6/22/2024",
+    "time": "16:33:38",
+    "temperature": "22.5",
+    "ph": "7.4",
+    "turbidity": "16",
+    "tds": "264.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19b",
+    "date": "6/22/2024",
+    "time": "16:33:40",
+    "temperature": "24.4",
+    "ph": "7.3",
+    "turbidity": "24",
+    "tds": "284.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19c",
+    "date": "6/22/2024",
+    "time": "16:33:42",
+    "temperature": "21.6",
+    "ph": "7.2",
+    "turbidity": "13",
+    "tds": "230.9"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19d",
+    "date": "6/22/2024",
+    "time": "16:33:44",
+    "temperature": "23.7",
+    "ph": "7.6",
+    "turbidity": "21",
+    "tds": "275.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19e",
+    "date": "6/22/2024",
+    "time": "16:33:46",
+    "temperature": "22.0",
+    "ph": "7.5",
+    "turbidity": "15",
+    "tds": "263.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19f",
+    "date": "6/22/2024",
+    "time": "16:33:48",
+    "temperature": "24.1",
+    "ph": "7.4",
+    "turbidity": "26",
+    "tds": "289.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19g",
+    "date": "6/22/2024",
+    "time": "16:33:50",
+    "temperature": "21.4",
+    "ph": "7.3",
+    "turbidity": "10",
+    "tds": "203.6"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19h",
+    "date": "6/22/2024",
+    "time": "16:33:52",
+    "temperature": "23.3",
+    "ph": "7.7",
+    "turbidity": "29",
+    "tds": "299.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19i",
+    "date": "6/22/2024",
+    "time": "16:33:54",
+    "temperature": "21.1",
+    "ph": "7.3",
+    "turbidity": "11",
+    "tds": "206.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19j",
+    "date": "6/22/2024",
+    "time": "16:33:56",
+    "temperature": "23.5",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "270.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO19k",
+    "date": "6/22/2024",
+    "time": "16:33:58",
+    "temperature": "25.0",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "293.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1ac",
+    "date": "6/22/2024",
+    "time": "16:37:00",
+    "temperature": "22.3",
+    "ph": "7.3",
+    "turbidity": "15",
+    "tds": "262.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1ad",
+    "date": "6/22/2024",
+    "time": "16:37:02",
+    "temperature": "24.4",
+    "ph": "7.5",
+    "turbidity": "26",
+    "tds": "289.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1ae",
+    "date": "6/22/2024",
+    "time": "16:37:04",
+    "temperature": "21.6",
+    "ph": "7.4",
+    "turbidity": "10",
+    "tds": "204.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1af",
+    "date": "6/22/2024",
+    "time": "16:37:06",
+    "temperature": "23.7",
+    "ph": "7.7",
+    "turbidity": "29",
+    "tds": "298.6"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1ag",
+    "date": "6/22/2024",
+    "time": "16:37:08",
+    "temperature": "21.3",
+    "ph": "7.3",
+    "turbidity": "11",
+    "tds": "205.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1ah",
+    "date": "6/22/2024",
+    "time": "16:37:10",
+    "temperature": "23.6",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "271.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1ai",
+    "date": "6/22/2024",
+    "time": "16:37:12",
+    "temperature": "25.0",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "293.6"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1aj",
+    "date": "6/22/2024",
+    "time": "16:37:14",
+    "temperature": "22.6",
+    "ph": "7.4",
+    "turbidity": "16",
+    "tds": "265.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1ak",
+    "date": "6/22/2024",
+    "time": "16:37:16",
+    "temperature": "24.5",
+    "ph": "7.3",
+    "turbidity": "24",
+    "tds": "284.9"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1al",
+    "date": "6/22/2024",
+    "time": "16:37:18",
+    "temperature": "21.8",
+    "ph": "7.2",
+    "turbidity": "13",
+    "tds": "230.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1am",
+    "date": "6/22/2024",
+    "time": "16:37:20",
+    "temperature": "23.9",
+    "ph": "7.6",
+    "turbidity": "21",
+    "tds": "275.6"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1an",
+    "date": "6/22/2024",
+    "time": "16:37:22",
+    "temperature": "22.2",
+    "ph": "7.5",
+    "turbidity": "15",
+    "tds": "264.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1ao",
+    "date": "6/22/2024",
+    "time": "16:37:24",
+    "temperature": "24.2",
+    "ph": "7.4",
+    "turbidity": "26",
+    "tds": "289.9"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1ap",
+    "date": "6/22/2024",
+    "time": "16:37:26",
+    "temperature": "21.5",
+    "ph": "7.3",
+    "turbidity": "10",
+    "tds": "204.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1aq",
+    "date": "6/22/2024",
+    "time": "16:37:28",
+    "temperature": "23.4",
+    "ph": "7.7",
+    "turbidity": "29",
+    "tds": "298.4"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1ar",
+    "date": "6/22/2024",
+    "time": "16:37:30",
+    "temperature": "21.2",
+    "ph": "7.3",
+    "turbidity": "11",
+    "tds": "206.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1as",
+    "date": "6/22/2024",
+    "time": "16:37:32",
+    "temperature": "23.5",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "271.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1at",
+    "date": "6/22/2024",
+    "time": "16:37:34",
+    "temperature": "25.0",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "293.7"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1au",
+    "date": "6/22/2024",
+    "time": "16:37:36",
+    "temperature": "22.7",
+    "ph": "7.4",
+    "turbidity": "16",
+    "tds": "265.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1av",
+    "date": "6/22/2024",
+    "time": "16:37:38",
+    "temperature": "24.6",
+    "ph": "7.3",
+    "turbidity": "24",
+    "tds": "285.1"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1aw",
+    "date": "6/22/2024",
+    "time": "16:37:40",
+    "temperature": "21.9",
+    "ph": "7.2",
+    "turbidity": "13",
+    "tds": "230.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1ax",
+    "date": "6/22/2024",
+    "time": "16:37:42",
+    "temperature": "24.0",
+    "ph": "7.6",
+    "turbidity": "21",
+    "tds": "275.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1ay",
+    "date": "6/22/2024",
+    "time": "16:37:44",
+    "temperature": "22.3",
+    "ph": "7.5",
+    "turbidity": "15",
+    "tds": "265.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1az",
+    "date": "6/22/2024",
+    "time": "16:37:46",
+    "temperature": "24.3",
+    "ph": "7.4",
+    "turbidity": "26",
+    "tds": "290.1"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1b0",
+    "date": "6/22/2024",
+    "time": "16:37:48",
+    "temperature": "21.6",
+    "ph": "7.3",
+    "turbidity": "10",
+    "tds": "205.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1b1",
+    "date": "6/22/2024",
+    "time": "16:37:50",
+    "temperature": "23.3",
+    "ph": "7.7",
+    "turbidity": "29",
+    "tds": "298.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1b2",
+    "date": "6/22/2024",
+    "time": "16:37:52",
+    "temperature": "21.3",
+    "ph": "7.3",
+    "turbidity": "11",
+    "tds": "206.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1b3",
+    "date": "6/22/2024",
+    "time": "16:37:54",
+    "temperature": "23.6",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "271.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1b4",
+    "date": "6/22/2024",
+    "time": "16:37:56",
+    "temperature": "25.0",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "293.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1b5",
+    "date": "6/22/2024",
+    "time": "16:37:58",
+    "temperature": "22.8",
+    "ph": "7.4",
+    "turbidity": "16",
+    "tds": "266.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1b6",
+    "date": "6/22/2024",
+    "time": "16:38:00",
+    "temperature": "24.7",
+    "ph": "7.3",
+    "turbidity": "24",
+    "tds": "285.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1b7",
+    "date": "6/22/2024",
+    "time": "16:38:02",
+    "temperature": "22.0",
+    "ph": "7.2",
+    "turbidity": "13",
+    "tds": "231.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1b8",
+    "date": "6/22/2024",
+    "time": "16:38:04",
+    "temperature": "24.1",
+    "ph": "7.6",
+    "turbidity": "21",
+    "tds": "276.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1b9",
+    "date": "6/22/2024",
+    "time": "16:38:06",
+    "temperature": "22.4",
+    "ph": "7.5",
+    "turbidity": "15",
+    "tds": "265.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1ba",
+    "date": "6/22/2024",
+    "time": "16:38:08",
+    "temperature": "24.4",
+    "ph": "7.4",
+    "turbidity": "26",
+    "tds": "290.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bb",
+    "date": "6/22/2024",
+    "time": "16:38:10",
+    "temperature": "21.7",
+    "ph": "7.3",
+    "turbidity": "10",
+    "tds": "205.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bc",
+    "date": "6/22/2024",
+    "time": "16:38:12",
+    "temperature": "23.5",
+    "ph": "7.7",
+    "turbidity": "29",
+    "tds": "299.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bd",
+    "date": "6/22/2024",
+    "time": "16:38:14",
+    "temperature": "21.4",
+    "ph": "7.3",
+    "turbidity": "11",
+    "tds": "206.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1be",
+    "date": "6/22/2024",
+    "time": "16:38:16",
+    "temperature": "23.6",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "271.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bf",
+    "date": "6/22/2024",
+    "time": "16:38:18",
+    "temperature": "25.0",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "294.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bg",
+    "date": "6/22/2024",
+    "time": "16:38:20",
+    "temperature": "22.9",
+    "ph": "7.4",
+    "turbidity": "16",
+    "tds": "266.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bh",
+    "date": "6/22/2024",
+    "time": "16:38:22",
+    "temperature": "24.8",
+    "ph": "7.3",
+    "turbidity": "24",
+    "tds": "285.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bi",
+    "date": "6/22/2024",
+    "time": "16:38:24",
+    "temperature": "22.1",
+    "ph": "7.2",
+    "turbidity": "13",
+    "tds": "231.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bj",
+    "date": "6/22/2024",
+    "time": "16:38:26",
+    "temperature": "24.0",
+    "ph": "7.6",
+    "turbidity": "21",
+    "tds": "276.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bk",
+    "date": "6/22/2024",
+    "time": "16:38:28",
+    "temperature": "22.3",
+    "ph": "7.5",
+    "turbidity": "15",
+    "tds": "265.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bl",
+    "date": "6/22/2024",
+    "time": "16:38:30",
+    "temperature": "24.4",
+    "ph": "7.4",
+    "turbidity": "26",
+    "tds": "290.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bm",
+    "date": "6/22/2024",
+    "time": "16:38:32",
+    "temperature": "21.7",
+    "ph": "7.3",
+    "turbidity": "10",
+    "tds": "205.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bn",
+    "date": "6/22/2024",
+    "time": "16:38:34",
+    "temperature": "23.2",
+    "ph": "7.7",
+    "turbidity": "29",
+    "tds": "299.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bo",
+    "date": "6/22/2024",
+    "time": "16:38:36",
+    "temperature": "21.4",
+    "ph": "7.3",
+    "turbidity": "11",
+    "tds": "207.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bp",
+    "date": "6/22/2024",
+    "time": "16:38:38",
+    "temperature": "23.7",
+    "ph": "7.5",
+    "turbidity": "20",
+    "tds": "272.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bq",
+    "date": "6/22/2024",
+    "time": "16:38:40",
+    "temperature": "25.0",
+    "ph": "7.6",
+    "turbidity": "27",
+    "tds": "294.2"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1br",
+    "date": "6/22/2024",
+    "time": "16:38:42",
+    "temperature": "23.0",
+    "ph": "7.4",
+    "turbidity": "16",
+    "tds": "267.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bs",
+    "date": "6/22/2024",
+    "time": "16:38:44",
+    "temperature": "24.9",
+    "ph": "7.3",
+    "turbidity": "24",
+    "tds": "286.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bt",
+    "date": "6/22/2024",
+    "time": "16:38:46",
+    "temperature": "22.2",
+    "ph": "7.2",
+    "turbidity": "13",
+    "tds": "231.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bu",
+    "date": "6/22/2024",
+    "time": "16:38:48",
+    "temperature": "24.0",
+    "ph": "7.6",
+    "turbidity": "21",
+    "tds": "277.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bv",
+    "date": "6/22/2024",
+    "time": "16:38:50",
+    "temperature": "22.5",
+    "ph": "7.5",
+    "turbidity": "15",
+    "tds": "266.0"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bw",
+    "date": "6/22/2024",
+    "time": "16:38:52",
+    "temperature": "24.3",
+    "ph": "7.4",
+    "turbidity": "26",
+    "tds": "290.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bx",
+    "date": "6/22/2024",
+    "time": "16:38:54",
+    "temperature": "21.8",
+    "ph": "7.3",
+    "turbidity": "10",
+    "tds": "205.8"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1by",
+    "date": "6/22/2024",
+    "time": "16:38:56",
+    "temperature": "23.1",
+    "ph": "7.7",
+    "turbidity": "29",
+    "tds": "299.5"
+  },
+  {
+    "id": "2Xde7NvZjXW1yphMO1bz",
+    "date": "6/22/2024",
+    "time": "16:38:58",
+    "temperature": "21.5",
+    "ph": "7.3",
+    "turbidity": "11",
+    "tds": "207.5"
+  }
+]
