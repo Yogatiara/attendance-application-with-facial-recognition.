@@ -1,12 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:face_recognition_application/api/model/user_model.dart';
 import 'package:face_recognition_application/font/font_style.dart';
 import 'package:face_recognition_application/provider/date_time_provider.dart';
 import 'package:face_recognition_application/provider/recognition_provider.dart';
 import 'package:face_recognition_application/provider/slide_action_provider.dart';
-import 'package:face_recognition_application/screens/register_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
@@ -127,7 +123,7 @@ class AttendanceScreen extends StatelessWidget {
                           Colors.black54),
                 )),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 20),
+              margin: const EdgeInsets.symmetric(vertical: 15),
               width: screenWidth / 1.2,
               child: Builder(
                 builder: (context) {
@@ -157,69 +153,69 @@ class AttendanceScreen extends StatelessWidget {
                               //   () => _key.currentState!.reset(),
                               // );
 
-                              if (recognitionProvider.person?.name == null ||
-                                  recognitionProvider.person?.name ==
-                                      "unknown") {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text(
-                                        "Please take your face picture again"),
-                                  ),
-                                );
-                              } else {
-                                QuerySnapshot snap = await FirebaseFirestore
-                                    .instance
-                                    .collection("student")
-                                    .where(
-                                        'id') // sesuaikan userId dengan id pengguna
-                                    .get();
+                              // if (recognitionProvider.person?.name == null ||
+                              //     recognitionProvider.person?.name ==
+                              //         "unknown") {
+                              //   ScaffoldMessenger.of(context).showSnackBar(
+                              //     const SnackBar(
+                              //       content: Text(
+                              //           "Please take your face picture again"),
+                              //     ),
+                              //   );
+                              // } else {
+                              //   QuerySnapshot snap = await FirebaseFirestore
+                              //       .instance
+                              //       .collection("student")
+                              //       .where(
+                              //           'id') // sesuaikan userId dengan id pengguna
+                              //       .get();
 
-                                if (snap.docs.isNotEmpty) {
-                                  // Mendapatkan document ID
-                                  String docId = snap.docs[0].id;
+                              //   if (snap.docs.isNotEmpty) {
+                              //     // Mendapatkan document ID
+                              //     String docId = snap.docs[0].id;
 
-                                  // Update field checkIn dan checkOut
+                              //     // Update field checkIn dan checkOut
 
-                                  if (slideActionProvider.text ==
-                                      "Slide to check in") {
-                                    await FirebaseFirestore.instance
-                                        .collection("student")
-                                        .doc(docId)
-                                        .update({
-                                      "checkIn": dateTimeProvider.formattedTime
-                                          .toString(),
-                                      // "checkOut":
-                                      //     dateTimeProvider.formattedTime.toString()
-                                    });
-                                    slideActionProvider.setText =
-                                        "Slide to check out";
-                                    dateTimeProvider.setChekInTime =
-                                        dateTimeProvider.formattedTime
-                                            .toString();
-                                  } else if (slideActionProvider.text ==
-                                      "Slide to check out") {
-                                    await FirebaseFirestore.instance
-                                        .collection("student")
-                                        .doc(docId)
-                                        .update({
-                                      "checkOut": dateTimeProvider.formattedTime
-                                          .toString(),
-                                      // "checkOut":
-                                      //     dateTimeProvider.formattedTime.toString()
-                                    });
-                                    slideActionProvider.setText =
-                                        "Slide to check in";
-                                    dateTimeProvider.setChekoutTime =
-                                        dateTimeProvider.formattedTime
-                                            .toString();
-                                  }
-                                } else {
-                                  print(
-                                      "User dengan ID tersebut tidak ditemukan");
-                                }
+                              //     if (slideActionProvider.text ==
+                              //         "Slide to check in") {
+                              //       await FirebaseFirestore.instance
+                              //           .collection("student")
+                              //           .doc(docId)
+                              //           .update({
+                              //         "checkIn": dateTimeProvider.formattedTime
+                              //             .toString(),
+                              //         // "checkOut":
+                              //         //     dateTimeProvider.formattedTime.toString()
+                              //       });
+                              //       slideActionProvider.setText =
+                              //           "Slide to check out";
+                              //       dateTimeProvider.setChekInTime =
+                              //           dateTimeProvider.formattedTime
+                              //               .toString();
+                              //     } else if (slideActionProvider.text ==
+                              //         "Slide to check out") {
+                              //       await FirebaseFirestore.instance
+                              //           .collection("student")
+                              //           .doc(docId)
+                              //           .update({
+                              //         "checkOut": dateTimeProvider.formattedTime
+                              //             .toString(),
+                              //         // "checkOut":
+                              //         //     dateTimeProvider.formattedTime.toString()
+                              //       });
+                              //       slideActionProvider.setText =
+                              //           "Slide to check in";
+                              //       dateTimeProvider.setChekoutTime =
+                              //           dateTimeProvider.formattedTime
+                              //               .toString();
+                              //     }
+                              //   } else {
+                              //     print(
+                              //         "User dengan ID tersebut tidak ditemukan");
+                              //   }
 
-                                print(snap.docs[0].id);
-                              }
+                              //   print(snap.docs[0].id);
+                              // }
                             },
                           ),
                         ),
@@ -230,130 +226,138 @@ class AttendanceScreen extends StatelessWidget {
               ),
             ),
             Center(
-              child: Column(
-                children: [
-                  Consumer<RecognitionProvider>(
-                    builder: (BuildContext context,
-                        RecognitionProvider recognitionProvider, _) {
-                      return recognitionProvider.photoFile == null
-                          ? Container(
-                              margin:
-                                  const EdgeInsets.only(top: 20, bottom: 10),
-                              width: 320,
-                              height: 320,
-                              decoration: const BoxDecoration(
-                                  image: DecorationImage(
-                                      image: AssetImage(
-                                          "assets/icons/face-scan.png"))),
-                            )
-                          : Container(
-                              margin:
-                                  const EdgeInsets.only(top: 20, bottom: 20),
-                              width: 320,
-                              height: 320,
-                              child: Image.file(
-                                recognitionProvider.photoFile!,
-                                fit: BoxFit.contain,
-                              ),
-                            );
-                    },
-                  ),
-                  Consumer<RecognitionProvider>(
-                    builder: (BuildContext contetx,
-                            RecognitionProvider recognitionProvider, _) =>
-                        recognitionProvider.person?.name == null &&
-                                recognitionProvider.person?.nim == null
-                            ? Container(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 15, horizontal: 20),
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [
-                                      BoxShadow(
-                                          color: Colors.black12,
-                                          blurRadius: 10,
-                                          offset: Offset(2, 2))
-                                    ],
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                child: Text(
-                                  "Please take a picture of your face!!",
-                                  style: FontStyle.textStyle(
-                                      15, Colors.black54, FontWeight.w500),
-                                ),
-                              )
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  RichText(
-                                      text: TextSpan(
-                                          text: "Name : ",
-                                          style: FontStyle.textStyle(
-                                              screenWidth / 25,
-                                              Colors.black,
-                                              FontWeight.w500),
-                                          children: [
-                                        TextSpan(
-                                            text: recognitionProvider
-                                                    .person?.name ??
-                                                "----",
-                                            style: FontStyle.textStyle(
-                                                screenWidth / 25,
-                                                Colors.black54,
-                                                FontWeight.w500))
-                                      ])),
-                                  const SizedBox(
-                                    width: 20,
-                                  ),
-                                  RichText(
-                                      text: TextSpan(
-                                          text: "NIM : ",
-                                          style: FontStyle.textStyle(
-                                              screenWidth / 25,
-                                              Colors.black,
-                                              FontWeight.w500),
-                                          children: [
-                                        TextSpan(
-                                            text: (recognitionProvider
-                                                            .person?.nim
-                                                            .toString() ==
-                                                        "0"
-                                                    ? "unknown"
-                                                    : recognitionProvider
-                                                        .person?.nim
-                                                        .toString()) ??
-                                                "----",
-                                            style: FontStyle.textStyle(
-                                                screenWidth / 25,
-                                                Colors.black54,
-                                                FontWeight.w500))
-                                      ]))
-                                ],
-                              ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 15),
-                    child: Consumer<RecognitionProvider>(
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 25),
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                          color: Colors.black12,
+                          blurRadius: 10,
+                          offset: Offset(2, 2))
+                    ],
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: Column(
+                  children: [
+                    Consumer<RecognitionProvider>(
                       builder: (BuildContext context,
-                              RecognitionProvider recognitionProvider, _) =>
-                          TextButton(
-                              style: ButtonStyle(
-                                shape: MaterialStateProperty.all(
-                                    const CircleBorder()),
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.white),
-                              ),
-                              onPressed: () {
-                                recognitionProvider.recognition();
-                              },
-                              child: Icon(
-                                Icons.camera,
-                                size: 50,
-                                color: Colors.redAccent,
-                              )),
+                          RecognitionProvider recognitionProvider, _) {
+                        return recognitionProvider.photoFile == null
+                            ? Container(
+                                width: 300,
+                                height: 300,
+                                decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                        image: AssetImage(
+                                            "assets/icons/face-scan.png"))),
+                              )
+                            : Container(
+                                width: 300,
+                                height: 300,
+                                child: Image.file(
+                                  recognitionProvider.photoFile!,
+                                  fit: BoxFit.fitHeight,
+                                ),
+                              );
+                      },
                     ),
-                  )
-                ],
+                    // Consumer<RecognitionProvider>(
+                    //   builder: (BuildContext contetx,
+                    //           RecognitionProvider recognitionProvider, _) =>
+                    //       recognitionProvider.person?.name == null &&
+                    //               recognitionProvider.person?.nim == null
+                    //           ? Container(
+                    //               padding: const EdgeInsets.symmetric(
+                    //                   vertical: 15, horizontal: 20),
+                    //               decoration: const BoxDecoration(
+                    //                   color: Colors.white,
+                    //                   boxShadow: [
+                    //                     BoxShadow(
+                    //                         color: Colors.black12,
+                    //                         blurRadius: 10,
+                    //                         offset: Offset(2, 2))
+                    //                   ],
+                    //                   borderRadius:
+                    //                       BorderRadius.all(Radius.circular(20))),
+                    //               child: Text(
+                    //                 "Please take a picture of your face!!",
+                    //                 style: FontStyle.textStyle(
+                    //                     15, Colors.black54, FontWeight.w500),
+                    //               ),
+                    //             )
+                    //           : Row(
+                    //               mainAxisAlignment: MainAxisAlignment.center,
+                    //               children: [
+                    //                 RichText(
+                    //                     text: TextSpan(
+                    //                         text: "Name : ",
+                    //                         style: FontStyle.textStyle(
+                    //                             screenWidth / 25,
+                    //                             Colors.black,
+                    //                             FontWeight.w500),
+                    //                         children: [
+                    //                       TextSpan(
+                    //                           text: recognitionProvider
+                    //                                   .person?.name ??
+                    //                               "----",
+                    //                           style: FontStyle.textStyle(
+                    //                               screenWidth / 25,
+                    //                               Colors.black54,
+                    //                               FontWeight.w500))
+                    //                     ])),
+                    //                 const SizedBox(
+                    //                   width: 20,
+                    //                 ),
+                    //                 RichText(
+                    //                     text: TextSpan(
+                    //                         text: "NIM : ",
+                    //                         style: FontStyle.textStyle(
+                    //                             screenWidth / 25,
+                    //                             Colors.black,
+                    //                             FontWeight.w500),
+                    //                         children: [
+                    //                       TextSpan(
+                    //                           text: (recognitionProvider
+                    //                                           .person?.nim
+                    //                                           .toString() ==
+                    //                                       "0"
+                    //                                   ? "unknown"
+                    //                                   : recognitionProvider
+                    //                                       .person?.nim
+                    //                                       .toString()) ??
+                    //                               "----",
+                    //                           style: FontStyle.textStyle(
+                    //                               screenWidth / 25,
+                    //                               Colors.black54,
+                    //                               FontWeight.w500))
+                    //                     ]))
+                    //               ],
+                    //             ),
+                    // ),
+                    Container(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: Consumer<RecognitionProvider>(
+                        builder: (BuildContext context,
+                                RecognitionProvider recognitionProvider, _) =>
+                            TextButton(
+                                style: ButtonStyle(
+                                  shape: MaterialStateProperty.all(
+                                      const CircleBorder()),
+                                  backgroundColor:
+                                      MaterialStateProperty.all(Colors.white),
+                                ),
+                                onPressed: () {
+                                  recognitionProvider.recognition();
+                                },
+                                child: const Icon(
+                                  Icons.camera_alt_outlined,
+                                  size: 50,
+                                  color: Colors.redAccent,
+                                )),
+                      ),
+                    )
+                  ],
+                ),
               ),
             )
           ],

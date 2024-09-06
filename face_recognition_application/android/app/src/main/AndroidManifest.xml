@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name = "android.premission.CAMERA"/>
     <application
         android:label="face_recognition_application"
         android:name="${applicationName}"

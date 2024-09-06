@@ -46,7 +46,7 @@ class _NavigationState extends State<Navigation> {
               color: Colors.black,
               tabs: const [
                 GButton(
-                  icon: LineIcons.calendar,
+                  icon: LineIcons.calendarCheck,
                   text: 'My attendace',
                 ),
                 GButton(
