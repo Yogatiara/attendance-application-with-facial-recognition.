@@ -7,6 +7,14 @@ URL_DATABASE = URL_DATABASE = "mysql+pymysql://root@localhost:3306/face_recognit
 
 engine = create_engine(URL_DATABASE)
 
-SessionLocal = sessionmaker( bind=engine)
+SessionLocal = sessionmaker(bind=engine)
 
 base = declarative_base()
+
+
+def get_db():
+  db = SessionLocal()
+  try:
+    yield db
+  finally:
+    db.close()
