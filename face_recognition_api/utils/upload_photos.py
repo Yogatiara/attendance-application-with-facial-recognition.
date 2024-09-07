@@ -1,9 +1,10 @@
 import os
+from fastapi import File
 
 
 IMAGEDIR = "./photos"
 
-async def uploadPhotos(file, name, nim):
+async def uploadPhotos(file : File, name :str, nim: int):
   if not os.path.exists(IMAGEDIR):
     os.makedirs(IMAGEDIR)
 
