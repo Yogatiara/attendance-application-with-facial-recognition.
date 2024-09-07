@@ -54,3 +54,42 @@ async def create_user(username: Annotated[str, Form(...)],
 
         }
   }
+
+
+@router.post("/login/")
+async def create_user(
+    nim: Annotated[int, Form(...)], password : Annotated[str, Form(...)],  db:Annotated[Session, Depends(get_db)]):
+  
+  find_user = db.query(user_model.User).filter(user_model.User.nim == nim).first()
+  verfify_password = hashing_password.verifyPassword(password, find_user.password)
+
+  if not find_user:
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="User is not exist"
+    )
+  
+  if not verfify_password:
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Incorrect password"
+    )
+
+  try:
+      db.refresh(find_user) 
+  except HTTPException:
+      db.rollback()
+      raise HTTPException(
+          status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+          detail="Failed to register user"
+      )
+
+  return {
+        "status_code": status.HTTP_200_OK,
+        "message": "Login successfull",
+        "data": {
+            "id": find_user.user_id,  
+            "username": find_user.username,
+            "nim": find_user.nim,
+        }
+  }
