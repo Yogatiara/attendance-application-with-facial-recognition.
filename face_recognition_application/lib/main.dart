@@ -27,6 +27,7 @@ class MainApp extends StatelessWidget {
       home: const LoginScreen(),
       routes: {
         '/attendance': (context) => const Navigation(),
+        // '/controllerPage': (context) => const ControllerPage()
       },
     );
   }

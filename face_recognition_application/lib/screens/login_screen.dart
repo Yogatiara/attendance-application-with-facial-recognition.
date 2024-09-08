@@ -15,7 +15,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
   late Size mediaSize;
   bool isPasswordVisible = false;
-  bool isLoading = false; // Tambahkan variabel status loading
+  bool isLoading = false;
+  bool isDisable = false;
 
   TextEditingController nimController = TextEditingController();
   TextEditingController passController = TextEditingController();
@@ -37,6 +38,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
     passController.dispose();
     nimFocusNode.dispose();
     passFocusNode.dispose();
+
     super.dispose();
   }
 
@@ -62,8 +64,12 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
               Colors.green, // Menambahkan warna merah pada SnackBar
         ),
       );
-      Future.delayed(const Duration(seconds: 3), () {
-        Navigator.pushNamed(context, '/attendance');
+
+      setState(() {
+        isDisable = true;
+      });
+      Future.delayed(const Duration(seconds: 1), () {
+        Navigator.pushReplacementNamed(context, '/attendance');
       });
 
       // Navigasi atau aksi setelah login berhasil
@@ -71,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("${user!["message"]}"),
-          backgroundColor: Colors.red,
+          backgroundColor: Colors.red.shade400,
         ),
       );
     }
@@ -247,6 +253,9 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
       controller: controller,
       focusNode: focusNode,
       obscureText: isPassword && !isPasswordVisible,
+      keyboardType: isPassword
+          ? TextInputType.visiblePassword
+          : TextInputType.number, // Set keyboard type
       decoration: InputDecoration(
         suffixIcon: isPassword
             ? IconButton(
@@ -274,23 +283,36 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
 
   Widget buildLoginButton(double screenWidth) {
     return ElevatedButton(
-      onPressed: () {
-        if (nimController.text.isEmpty || passController.text.isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('NIM and Password cannot be empty'),
-            ),
-          );
-        } else {
-          loginUser();
-        }
-      },
+      onPressed: isLoading || isDisable
+          ? null
+          : () {
+              if (nimController.text.isEmpty || passController.text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: const Text('NIM and Password cannot be empty'),
+                    backgroundColor: Colors.red[400],
+                  ),
+                );
+              } else {
+                loginUser();
+              }
+            },
       style: ElevatedButton.styleFrom(
         shape: const StadiumBorder(),
         elevation: 8,
         backgroundColor: Colors.redAccent,
         shadowColor: Colors.red,
         minimumSize: const Size.fromHeight(60),
+      ).copyWith(
+        backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+            if (isLoading || isDisable) {
+              return Colors.redAccent; // Set color for disabled state
+            }
+            return Colors.redAccent; // Set color for enabled state
+          },
+        ),
+        shadowColor: MaterialStateProperty.all<Color>(Colors.red),
       ),
       child: isLoading
           ? const SizedBox(
