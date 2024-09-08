@@ -1,3 +1,4 @@
+import 'package:face_recognition_application/api/fetching/auth_fetch.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:face_recognition_application/font/font_style.dart';
@@ -11,9 +12,10 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
   late Size mediaSize;
   bool isPasswordVisible = false;
+  bool isLoading = false; // Tambahkan variabel status loading
 
   TextEditingController nimController = TextEditingController();
   TextEditingController passController = TextEditingController();
@@ -24,15 +26,55 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+
     nimController.dispose();
     passController.dispose();
     nimFocusNode.dispose();
     passFocusNode.dispose();
     super.dispose();
+  }
+
+  Future<void> loginUser() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    final nim = int.parse(nimController.text);
+    final password = passController.text;
+
+    final user = await Auth.login(nim, password);
+
+    setState(() {
+      isLoading = false;
+    });
+
+    if (user?["success"]) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Login successfull"),
+          backgroundColor:
+              Colors.green, // Menambahkan warna merah pada SnackBar
+        ),
+      );
+      Future.delayed(const Duration(seconds: 3), () {
+        Navigator.pushNamed(context, '/attendance');
+      });
+
+      // Navigasi atau aksi setelah login berhasil
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("${user!["message"]}"),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
@@ -49,7 +91,7 @@ class _LoginScreenState extends State<LoginScreen> {
         backgroundColor: Colors.black12,
         body: Stack(
           children: [
-            Positioned(top: 55, child: buildTop()),
+            Positioned(top: 52, child: buildTop()),
             Positioned(
                 bottom: -5,
                 right: -3,
@@ -163,8 +205,6 @@ class _LoginScreenState extends State<LoginScreen> {
             )
           ],
         ),
-        // Adjust the alignment as needed
-
         const SizedBox(
           height: 15,
         ),
@@ -234,15 +274,41 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget buildLoginButton(double screenWidth) {
     return ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-            shape: const StadiumBorder(),
-            elevation: 8,
-            backgroundColor: Colors.redAccent,
-            shadowColor: Colors.red,
-            minimumSize: const Size.fromHeight(60)),
-        child: Text('Login',
-            style: FontStyle.textStyle(
-                screenWidth / 20, Colors.white, FontWeight.w400)));
+      onPressed: () {
+        if (nimController.text.isEmpty || passController.text.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('NIM and Password cannot be empty'),
+            ),
+          );
+        } else {
+          loginUser();
+        }
+      },
+      style: ElevatedButton.styleFrom(
+        shape: const StadiumBorder(),
+        elevation: 8,
+        backgroundColor: Colors.redAccent,
+        shadowColor: Colors.red,
+        minimumSize: const Size.fromHeight(60),
+      ),
+      child: isLoading
+          ? const SizedBox(
+              height: 24,
+              width: 24,
+              child: CircularProgressIndicator(
+                color: Colors.white,
+                strokeWidth: 2,
+              ),
+            )
+          : Text(
+              'Login',
+              style: FontStyle.textStyle(
+                screenWidth / 20,
+                Colors.white,
+                FontWeight.w400,
+              ),
+            ),
+    );
   }
 }

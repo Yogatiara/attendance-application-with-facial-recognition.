@@ -83,14 +83,14 @@ async def login(
   if not find_user:
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="User is not exist"
+        detail="user not available"
     )
   
   verfify_password = hashing_password.verifyPassword(password, find_user.password)
   if not verfify_password:
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Incorrect password"
+        detail="wrong password"
     )
 
   

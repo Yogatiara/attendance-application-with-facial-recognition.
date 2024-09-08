@@ -23,8 +23,11 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: LoginScreen(),
+    return MaterialApp(
+      home: const LoginScreen(),
+      routes: {
+        '/attendance': (context) => const Navigation(),
+      },
     );
   }
 }

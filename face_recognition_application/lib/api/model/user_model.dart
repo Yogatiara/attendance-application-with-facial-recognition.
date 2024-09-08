@@ -1,12 +1,16 @@
+import 'dart:io';
+
 class User {
-  static String id = " ";
-  static String studentId = " ";
-  static String firstName = " ";
-  static String lastName = " ";
-  static String birthDate = " ";
-  static String address = " ";
-  static String profilePicLink = " ";
-  static double lat = 0;
-  static double long = 0;
-  static bool canEdit = true;
+  String? userName;
+  String? email;
+  int? nim;
+  File? faceIamge;
+  String token;
+
+  User(
+      {this.userName,
+      this.email,
+      this.nim,
+      this.faceIamge,
+      required this.token});
 }
