@@ -1,5 +1,6 @@
-photos/
+source_photo/
 __pycache__/
 ml_model/
 .env
 create_secret_key.py
+target_photo/

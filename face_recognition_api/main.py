@@ -1,15 +1,13 @@
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
-from database import engine
 
 from app.controllers.user_auth_controller import router as user_router
-from app.model import attendance_model
-
-attendance_model.base.metadata.create_all(bind=engine)
+from app.controllers.attendance_controller import router as attendance_router
 
 app = FastAPI()
 
 app.include_router(user_router, prefix="/users", tags=["Auth"])
+app.include_router(attendance_router, prefix="/users", tags=["Attendance"])
 
 @app.exception_handler(HTTPException)
 async def http_exception_handler(request: Request, exc: HTTPException):

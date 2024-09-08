@@ -6,8 +6,6 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from app.model import user_model
 from database import engine
 from utils import hashing_password, upload_photos, manage_token
-
-
 from database import get_db
 security = HTTPBearer()
 
@@ -16,10 +14,10 @@ router = APIRouter()
 user_model.base.metadata.create_all(bind=engine)
 
 @router.post("/register/")
-async def create_user(username: Annotated[str, Form(...)], 
+async def createUser(user_name: Annotated[str, Form(...)], 
     nim: Annotated[int, Form(...)], password : Annotated[str, Form(...)], face_image: Annotated[UploadFile, File(...)],  db:Annotated[Session, Depends(get_db)]):
   
-  existing_user = db.query(user_model.User).filter(user_model.User.username == username).first()
+  existing_user = db.query(user_model.User).filter(user_model.User.user_name == user_name).first()
 
   if existing_user:
     raise HTTPException(
@@ -33,14 +31,31 @@ async def create_user(username: Annotated[str, Form(...)],
           status_code=status.HTTP_400_BAD_REQUEST,
           detail="NIM already registered"
       )
-  file_path = await upload_photos.uploadPhotos(face_image, username, nim)
+  file_path = await upload_photos.uploadSourcePhotos(face_image, user_name, nim)
   
-  db_user = user_model.User(username=username, nim=nim, password=hashing_password.hashingPassword(password),  face_image=file_path)
+  db_user = user_model.User(
+     user_name=user_name, 
+     nim=nim, 
+     password=hashing_password.hashingPassword(password),  face_image=file_path
+    )
 
   try:
     db.add(db_user)
     db.commit()
-    db.refresh(db_user) 
+    db.refresh(db_user)
+
+    return {
+        "status_code": status.HTTP_201_CREATED,
+        "message": "Successfull to register",
+        "data": {
+            "id": db_user.user_id,  
+            "username": db_user.user_name,
+            "nim": db_user.nim,
+            "password": db_user.password,
+            "face_image": db_user.face_image
+
+        }
+  } 
   except HTTPException:
     db.rollback()
     raise HTTPException(
@@ -48,18 +63,7 @@ async def create_user(username: Annotated[str, Form(...)],
         detail="Failed to register user"
     )
 
-  return {
-        "status_code": status.HTTP_201_CREATED,
-        "message": "Successfull to register",
-        "data": {
-            "id": db_user.user_id,  
-            "username": db_user.username,
-            "nim": db_user.nim,
-            "password": db_user.password,
-            "face_image": db_user.face_image
 
-        }
-  }
 
 @router.post("/login/", summary="Login user")
 async def login(
@@ -80,31 +84,32 @@ async def login(
     )
 
   
-  access_token = manage_token.create_access_token(find_user.user_id, find_user.username, find_user.nim)
+  access_token = manage_token.create_access_token(find_user.user_id, find_user.user_name, find_user.nim)
 
   try:
-      db.refresh(find_user) 
-  except HTTPException:
-      db.rollback()
-      raise HTTPException(
-          status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-          detail="Failed to register user"
-      )
-
-  return {
+    db.refresh(find_user)
+    return {
         "status_code": status.HTTP_200_OK,
-        "message": "Login successfull",
+        "message": "Register successfull",
         "access_token": access_token,
         "token_type": "bearer",
         "data": {
             "id": find_user.user_id,  
-            "username": find_user.username,
+            "username": find_user.user_name,
             "nim": find_user.nim,
         }
   }
 
+  except HTTPException:
+      db.rollback()
+      raise HTTPException(
+          status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+          detail="Failed to login user"
+      )
+
+
 @router.put("/change-password/", summary="Change password")
-async def change_password(
+async def changePassword(
     old_password: Annotated[str, Form(...)],
     new_password: Annotated[str, Form(...)],
     db: Annotated[Session, Depends(get_db)],
@@ -140,6 +145,10 @@ async def change_password(
     try:
         db.commit()
         db.refresh(find_user)
+        return {
+        "status_code": status.HTTP_200_OK,
+        "message": "Password changed successfully"
+        }
     except:
         db.rollback()
         raise HTTPException(
@@ -147,7 +156,4 @@ async def change_password(
             detail="Failed to update password"
         )
 
-    return {
-        "status_code": status.HTTP_200_OK,
-        "message": "Password changed successfully"
-    }
+   

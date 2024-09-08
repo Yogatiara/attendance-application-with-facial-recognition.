@@ -8,13 +8,19 @@ class StatusAttendance(enum.Enum):
     late = "late"
     early_leave = "early leave"
 
+class AttendanceAction(enum.Enum):
+    chek_in = "chekin"
+    chek_out = "chekout"
+
 class Attendance(base):
   __tablename__ = 'attendance'
   attendace_id = Column(Integer, primary_key=True, index=True)
-  image_url = Column(String(50), nullable=False)
+  action = Column(Enum(AttendanceAction), nullable= False)
   time_stamp = Column(String(20), nullable=False)
   status = Column(Enum(StatusAttendance), nullable=False)
-  user_id = Column(Integer, ForeignKey('user.user_id'), nullable=False)
+  target_face_image =  Column(String(255), nullable=True)
+  user_id = Column(Integer, ForeignKey('user.user_id'),
+   nullable=False)
 
   user = relationship("User", back_populates="attendance")
 

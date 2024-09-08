@@ -21,7 +21,7 @@ app_insight.prepare(ctx_id=0, det_size=(640, 640))
 recognition = insightface.model_zoo.get_model('./model/w600k_r50.onnx', download=False, download_zip=False)
 recognition.prepare(ctx_id=0)
 
-IMAGEDIR = "./photos"
+IMAGEDIR = "./source_photo"
 
 
 
