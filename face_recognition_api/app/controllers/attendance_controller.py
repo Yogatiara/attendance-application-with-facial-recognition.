@@ -36,15 +36,7 @@ async def attendace(
         detail="Invalid token"
     )
   
-  # if action not in [e.value for e in attendance_model.AttendanceAction]:
-  #   raise HTTPException(
-  #       status_code=status.HTTP_400_BAD_REQUEST,
-  #       detail="Invalid action"
-  #   )
-  
   attendace_status = None
-
-
   
   if action =="chek_in" :
     if time_stamp <= chekin_time:
@@ -55,12 +47,6 @@ async def attendace(
     if time_stamp < chekout_time:
       attendace_status = "early_leave"
 
-  # if attendace_status not in [e.value for e in attendance_model.StatusAttendance]:
-  #   raise HTTPException(
-  #       status_code=status.HTTP_400_BAD_REQUEST,
-  #       detail="Invalid status"
-  #   )
-  
 
   
   contents = await face_image.read()

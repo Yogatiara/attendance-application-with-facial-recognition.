@@ -1,4 +1,4 @@
-import 'package:face_recognition_application/api/fetching/recognition_fetch.dart';
+import 'package:face_recognition_application/api/fetching/attandace_fetch.dart';
 import 'package:face_recognition_application/screens/attendance_screen.dart';
 import 'package:face_recognition_application/screens/login_screen.dart';
 import 'package:face_recognition_application/utils/navigation.dart';
@@ -24,7 +24,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Navigation(),
+      home: LoginScreen(),
     );
   }
 }

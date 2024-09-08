@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:face_recognition_application/api/fetching/recognition_fetch.dart';
+import 'package:face_recognition_application/api/fetching/attandace_fetch.dart';
 import 'package:face_recognition_application/api/model/person_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

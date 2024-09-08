@@ -15,7 +15,7 @@ user_model.base.metadata.create_all(bind=engine)
 
 @router.post("/register/")
 async def createUser(user_name: Annotated[str, Form(...)], 
-    nim: Annotated[int, Form(...)], password : Annotated[str, Form(...)], face_image: Annotated[UploadFile, File(...)],  db:Annotated[Session, Depends(get_db)]):
+    nim: Annotated[int, Form(...)], email: Annotated[str, Form(...)], password : Annotated[str, Form(...)], face_image: Annotated[UploadFile, File(...)],  db:Annotated[Session, Depends(get_db)]):
   
   existing_user = db.query(user_model.User).filter(user_model.User.user_name == user_name).first()
 
@@ -31,12 +31,22 @@ async def createUser(user_name: Annotated[str, Form(...)],
           status_code=status.HTTP_400_BAD_REQUEST,
           detail="NIM already registered"
       )
+  
+  existing_email = db.query(user_model.User).filter(user_model.User.email == email).first()
+  if existing_email:
+      raise HTTPException(
+          status_code=status.HTTP_400_BAD_REQUEST,
+          detail="Email already registered"
+      )
+  
   file_path = await upload_photos.uploadSourcePhotos(face_image, user_name, nim)
   
   db_user = user_model.User(
-     user_name=user_name, 
-     nim=nim, 
-     password=hashing_password.hashingPassword(password),  face_image=file_path
+    user_name=user_name, 
+    nim=nim, 
+		email=email,
+    password=hashing_password.hashingPassword(password),
+    face_image=file_path
     )
 
   try:
@@ -51,7 +61,7 @@ async def createUser(user_name: Annotated[str, Form(...)],
             "id": db_user.user_id,  
             "username": db_user.user_name,
             "nim": db_user.nim,
-            "password": db_user.password,
+            "email": db_user.email,
             "face_image": db_user.face_image
 
         }
@@ -106,6 +116,24 @@ async def login(
           status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
           detail="Failed to login user"
       )
+
+@router.post("/logout/", summary="Logout user")
+async def logout(credentials: HTTPAuthorizationCredentials = Depends(security)):
+
+    token = credentials.credentials
+    user_info = manage_token.verify_token(token)
+
+    if not user_info:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token"
+        )
+    
+    
+    return {
+        "status_code": status.HTTP_200_OK,
+        "message": "Logout successful"
+    }
 
 
 @router.put("/change-password/", summary="Change password")

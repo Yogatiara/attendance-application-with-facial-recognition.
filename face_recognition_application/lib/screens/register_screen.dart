@@ -1,4 +1,4 @@
-import 'package:face_recognition_application/api/fetching/recognition_fetch.dart';
+// import 'package:face_recognition_application/api/fetching/recognition_fetch.dart';
 import 'package:face_recognition_application/screens/attendance_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';

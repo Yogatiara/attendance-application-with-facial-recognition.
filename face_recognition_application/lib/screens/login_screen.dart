@@ -1,232 +1,248 @@
-import 'dart:convert';
-
-import 'package:face_recognition_application/utils/navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:face_recognition_application/font/font_style.dart';
+
+final formKey = GlobalKey<FormState>();
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _idController = TextEditingController();
-  final TextEditingController _passController = TextEditingController();
+  late Size mediaSize;
+  bool isPasswordVisible = false;
 
-  double screenHeight = 0;
-  double screenWidth = 0;
-  bool _isLoading = false;
-  String? _errorMessage;
+  TextEditingController nimController = TextEditingController();
+  TextEditingController passController = TextEditingController();
 
-  final Dio _dio = Dio();
-  String apiUrl = 'https://c3a9-103-154-74-254.ngrok-free.app/login/';
+  final FocusNode nimFocusNode = FocusNode();
+  final FocusNode passFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    nimController.dispose();
+    passController.dispose();
+    nimFocusNode.dispose();
+    passFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    screenHeight = MediaQuery.of(context).size.height;
-    screenWidth = MediaQuery.of(context).size.width;
+    mediaSize = MediaQuery.of(context).size;
+    double screenWidth = mediaSize.width;
+    double screenHeight = MediaQuery.of(context).size.height;
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SingleChildScrollView(
-        child: Column(
+    return Container(
+      decoration: const BoxDecoration(
+        color: Colors.redAccent,
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.black12,
+        body: Stack(
           children: [
-            Container(
-              height: screenHeight / 2.5,
-              width: screenWidth,
-              decoration: BoxDecoration(
-                color: const Color(0xffeef444c),
-                borderRadius: const BorderRadius.only(
-                  bottomRight: Radius.circular(70),
-                ),
-              ),
-              child: Center(
-                child: Icon(
-                  Icons.person,
-                  color: Colors.white,
-                  size: screenWidth / 5,
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(
-                top: screenHeight / 15,
-                bottom: screenHeight / 20,
-              ),
-              child: Text(
-                "Login",
-                style: TextStyle(
-                  fontSize: screenWidth / 18,
-                  fontFamily: "NexaBold",
-                ),
-              ),
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              margin: EdgeInsets.symmetric(
-                horizontal: screenWidth / 12,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  fieldTitle("Name"),
-                  customField("Enter your name", _idController, false),
-                  fieldTitle("Password"),
-                  customField("Enter your password", _passController, true),
-                  GestureDetector(
-                    onTap: () async {
-                      FocusScope.of(context).unfocus();
-                      String name = _idController.text;
-                      String password = _passController.text;
-                      print(name);
-                      print(password);
-
-                      if (name.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Name is still empty!")),
-                        );
-                      } else if (password.isEmpty) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content: Text("Password is still empty!")),
-                        );
-                      } else {
-                        await _login(name, password);
-                      }
-                    },
-                    child: Container(
-                      height: 60,
-                      width: screenWidth,
-                      margin: EdgeInsets.only(top: screenHeight / 40),
-                      decoration: BoxDecoration(
-                        color: const Color(0xffeef444c),
-                        borderRadius:
-                            const BorderRadius.all(Radius.circular(30)),
-                      ),
-                      child: Center(
-                        child: _isLoading
-                            ? CircularProgressIndicator()
-                            : Text(
-                                "LOGIN",
-                                style: TextStyle(
-                                  fontFamily: "NexaBold",
-                                  fontSize: screenWidth / 26,
-                                  color: Colors.white,
-                                  letterSpacing: 2,
-                                ),
-                              ),
-                      ),
-                    ),
-                  ),
-                  if (_errorMessage != null) ...[
-                    SizedBox(height: 20),
-                    Text(
-                      _errorMessage!,
-                      style: TextStyle(color: Colors.red),
-                    ),
-                  ],
-                ],
-              ),
-            ),
+            Positioned(top: 55, child: buildTop()),
+            Positioned(
+                bottom: -5,
+                right: -3,
+                left: -3,
+                child: buildBottom(context, screenWidth))
           ],
         ),
       ),
     );
   }
 
-  Widget fieldTitle(String title) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      child: Text(
-        title,
-        style: TextStyle(
-          fontSize: screenWidth / 26,
-          fontFamily: "NexaBold",
-        ),
-      ),
-    );
-  }
-
-  Widget customField(
-      String hint, TextEditingController controller, bool obscure) {
-    return Container(
-      width: screenWidth,
-      margin: EdgeInsets.only(bottom: 12),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.all(Radius.circular(12)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 10,
-            offset: Offset(2, 2),
-          ),
-        ],
-      ),
-      child: Row(
+  Widget buildTop() {
+    return SizedBox(
+      width: mediaSize.width,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: screenWidth / 6,
-            child: Icon(
-              Icons.person,
-              color: const Color(0xffeef444c),
-              size: screenWidth / 15,
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(right: screenWidth / 12),
-              child: TextFormField(
-                controller: controller,
-                enableSuggestions: false,
-                autocorrect: false,
-                decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                    vertical: screenHeight / 35,
+              width: 200,
+              height: 200,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage(
+                      'assets/icons_app/AttendMe.png',
+                    ),
+                    fit: BoxFit.contain,
                   ),
-                  border: InputBorder.none,
-                  hintText: hint,
-                ),
-                maxLines: 1,
-                obscureText: obscure,
-              ),
-            ),
-          )
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 3,
+                      spreadRadius: 3,
+                    )
+                  ],
+                  shape: BoxShape.circle)),
+          const SizedBox(
+            height: 10,
+          ),
+          Text("AttendMe",
+              style: GoogleFonts.firaSans(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                  fontSize: 35,
+                  letterSpacing: 1))
         ],
       ),
     );
   }
 
-  Future<void> _login(String name, String password) async {
-    print(name);
-    setState(() {
-      _isLoading = true;
-      _errorMessage = null;
-    });
+  Widget buildBottom(BuildContext context, double screenWidth) {
+    return SizedBox(
+        width: mediaSize.width,
+        child: Card(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(32), topRight: Radius.circular(32))),
+          child: Padding(
+            padding: const EdgeInsets.all(30),
+            child: Column(
+              children: [
+                buildForm(screenWidth),
+              ],
+            ),
+          ),
+        ));
+  }
 
-    var data = FormData.fromMap({'username': name, 'password': password});
-
-    var dio = Dio();
-    var response = await dio.request(
-      'https://c3a9-103-154-74-254.ngrok-free.app/login/',
-      options: Options(
-        method: 'POST',
-      ),
-      data: data,
-    );
-
-    if (response.statusCode == 200) {
-      print(json.encode(response.data));
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => Navigation(), // Kirim parameter id
+  Widget buildForm(double screenWidth) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        FontStyle.buildText("Welcome", screenWidth / 15, Colors.redAccent),
+        FontStyle.buildText("Please login before doing attendance",
+            screenWidth / 25, Colors.black38),
+        const SizedBox(
+          height: 40,
         ),
-      );
-    } else {
-      print(response.statusMessage);
-    }
+        Text(
+          "NIM",
+          style: FontStyle.textStyle(
+              screenWidth / 20, Colors.redAccent, FontWeight.w400),
+        ),
+        buildInputField(
+            nimController, nimFocusNode, "Example: 1121....", false),
+        const SizedBox(
+          height: 20,
+        ),
+        Text(
+          "Password",
+          style: FontStyle.textStyle(
+              screenWidth / 20, Colors.redAccent, FontWeight.w400),
+        ),
+        buildInputField(
+            passController, passFocusNode, "Enter your password", true),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              onPressed: () {},
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                backgroundColor: Colors.transparent,
+              ).copyWith(
+                overlayColor: MaterialStateProperty.all(Colors.transparent),
+              ),
+              child: Text(
+                "Forgot password",
+                style: FontStyle.textStyle(
+                    screenWidth / 25, Colors.redAccent, FontWeight.w700),
+              ),
+            )
+          ],
+        ),
+        // Adjust the alignment as needed
+
+        const SizedBox(
+          height: 15,
+        ),
+        buildLoginButton(screenWidth),
+        const SizedBox(
+          height: 10,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "You don't have an account?",
+              style: FontStyle.textStyle(
+                  screenWidth / 25, Colors.black, FontWeight.w400),
+            ),
+            TextButton(
+              onPressed: () {},
+              style: TextButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 6),
+                backgroundColor: Colors.transparent,
+              ).copyWith(
+                overlayColor: MaterialStateProperty.all(Colors.transparent),
+              ),
+              child: Text(
+                "Register",
+                style: FontStyle.textStyle(
+                    screenWidth / 23, Colors.redAccent, FontWeight.w700),
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget buildInputField(TextEditingController controller, FocusNode focusNode,
+      String hintText, bool isPassword) {
+    return TextFormField(
+      cursorColor: Colors.redAccent,
+      controller: controller,
+      focusNode: focusNode,
+      obscureText: isPassword && !isPasswordVisible,
+      decoration: InputDecoration(
+        suffixIcon: isPassword
+            ? IconButton(
+                icon: Icon(
+                  isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                  color: Colors.redAccent,
+                ),
+                onPressed: () {
+                  setState(() {
+                    isPasswordVisible = !isPasswordVisible;
+                  });
+                },
+              )
+            : const Icon(Icons.done, color: Colors.redAccent),
+        hintText: hintText,
+        enabledBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.red, width: 1),
+        ),
+        focusedBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.redAccent, width: 2),
+        ),
+      ),
+    );
+  }
+
+  Widget buildLoginButton(double screenWidth) {
+    return ElevatedButton(
+        onPressed: () {},
+        style: ElevatedButton.styleFrom(
+            shape: const StadiumBorder(),
+            elevation: 8,
+            backgroundColor: Colors.redAccent,
+            shadowColor: Colors.red,
+            minimumSize: const Size.fromHeight(60)),
+        child: Text('Login',
+            style: FontStyle.textStyle(
+                screenWidth / 20, Colors.white, FontWeight.w400)));
   }
 }

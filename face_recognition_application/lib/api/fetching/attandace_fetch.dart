@@ -19,7 +19,6 @@ abstract class Recognition {
           .post("${dotenv.env["API_URL"]}recognition/", data: formData);
 
       if (res.statusCode == 201) {
-        print("Response Data: ${res.data}");
         return Person(
           name: res.data["name"],
           nim: res.data["NIM"],
