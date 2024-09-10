@@ -22,7 +22,7 @@ attendace_status = None
 async def attendace(
     action : Annotated[str, Form(...)],
     time_stamp: Annotated[str, Form(...)],
-    face_image: Annotated[UploadFile, File(...)],  
+    target_face_image: Annotated[UploadFile, File(...)],  
     db:Annotated[Session, Depends(get_db)], 
     credentials: HTTPAuthorizationCredentials = Depends(security)):
   
@@ -49,7 +49,7 @@ async def attendace(
 
 
   
-  contents = await face_image.read()
+  contents = await target_face_image.read()
 
   succed = face_recognition.findSimilarity(contents, nim= user_info["nim"])
   if succed == False:
@@ -59,7 +59,7 @@ async def attendace(
     )
   
 
-  file_path = upload_photos.uploadTargetPhotos(face_image, contents, user_info["name"], user_info["nim"], action )
+  file_path = upload_photos.uploadTargetPhotos(target_face_image, contents, user_info["name"], user_info["nim"], action )
   
   db_recognition = attendance_model.Attendance(
     action = action, 
@@ -86,7 +86,7 @@ async def attendace(
         "status_code": status.HTTP_201_CREATED,
         "message": "Successfull to attendance",
         "data": {
-            "id": db_recognition.attendace_id,  
+            "attendance_id": db_recognition.attendace_id,  
             "action": db_recognition.action,
             "time_stamp": db_recognition.time_stamp,
             "status": db_recognition.status,

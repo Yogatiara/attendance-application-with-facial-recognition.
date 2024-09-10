@@ -1,9 +1,11 @@
+import 'package:face_recognition_application/api/fetching/auth_fetch.dart';
 import 'package:face_recognition_application/screens/attendance_history_screen.dart';
 import 'package:face_recognition_application/screens/attendance_screen.dart';
 import 'package:face_recognition_application/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Navigation extends StatefulWidget {
   const Navigation({super.key});
@@ -12,7 +14,7 @@ class Navigation extends StatefulWidget {
   State<Navigation> createState() => _NavigationState();
 }
 
-class _NavigationState extends State<Navigation> {
+class _NavigationState extends State<Navigation> with WidgetsBindingObserver {
   int _selectedPage = 1;
 
   static const List<Widget> _widgetOptions = <Widget>[
@@ -20,6 +22,40 @@ class _NavigationState extends State<Navigation> {
     AttendanceScreen(),
     ProfileScreen(),
   ];
+
+  Future<void> verifyToken() async {
+    // final prefs = await SharedPreferences.getInstance();
+    // final authToken = prefs.getString('token');
+    // final token = await Auth.verifToken(authToken!);
+
+    // if (token?["message"] == 401) {
+    //   Navigator.pushReplacementNamed(context, '/login');
+    //   await prefs.remove('token');
+
+    //   // Navigasi atau aksi setelah login berhasil
+    // }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      print("resumed");
+      verifyToken();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

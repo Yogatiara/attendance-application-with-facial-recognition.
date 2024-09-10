@@ -1,10 +1,10 @@
 import 'package:face_recognition_application/font/font_style.dart';
+import 'package:face_recognition_application/provider/attendance_provider.dart';
 import 'package:face_recognition_application/provider/date_time_provider.dart';
-import 'package:face_recognition_application/provider/recognition_provider.dart';
-import 'package:face_recognition_application/provider/slide_action_provider.dart';
+import 'package:face_recognition_application/provider/user_provider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:slide_to_act/slide_to_act.dart';
 
 class AttendanceScreen extends StatelessWidget {
   const AttendanceScreen({super.key});
@@ -18,11 +18,11 @@ class AttendanceScreen extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => DateTimeProvider()),
         ChangeNotifierProvider(
-          create: (context) => RecognitionProvider(),
+          create: (context) => AttendanceProvider(),
         ),
         ChangeNotifierProvider(
-          create: (context) => SlideActionProvider(),
-        )
+          create: (context) => UserProvider(),
+        ),
       ],
       child: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -31,13 +31,16 @@ class AttendanceScreen extends StatelessWidget {
             Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.only(top: 32),
-              child: Column(
-                children: [
-                  FontStyle.buildText(
-                      "Welcome", screenWidth / 20, Colors.black54),
-                  FontStyle.buildText(
-                      "Student", screenWidth / 17, Colors.redAccent),
-                ],
+              child: Consumer<UserProvider>(
+                builder: (BuildContext content, UserProvider userProvider, _) =>
+                    Column(
+                  children: [
+                    FontStyle.buildText(
+                        "Welcome", screenWidth / 20, Colors.black54),
+                    FontStyle.buildText(
+                        "Student", screenWidth / 17, Colors.redAccent),
+                  ],
+                ),
               ),
             ),
             Container(
@@ -122,112 +125,106 @@ class AttendanceScreen extends StatelessWidget {
                           screenWidth / 20,
                           Colors.black54),
                 )),
-            Container(
-              margin: const EdgeInsets.symmetric(vertical: 15),
-              width: screenWidth / 1.2,
-              child: Builder(
-                builder: (context) {
-                  final GlobalKey<SlideActionState> _key = GlobalKey();
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Consumer<RecognitionProvider>(
-                      builder: (BuildContext context,
-                              RecognitionProvider recognitionProvider, _) =>
-                          Consumer<SlideActionProvider>(
-                        builder: (BuildContext context,
-                                SlideActionProvider slideActionProvider, _) =>
-                            Consumer<DateTimeProvider>(
-                          builder: (BuildContext context,
-                                  DateTimeProvider dateTimeProvider, _) =>
-                              SlideAction(
-                            text: slideActionProvider.text,
-                            textStyle: FontStyle.textStyle(screenWidth / 20,
-                                Colors.redAccent, FontWeight.w500),
-                            outerColor: Colors.white,
-                            innerColor: Colors.redAccent,
-                            key: _key,
-                            onSubmit: () async {
-                              print(dateTimeProvider.formattedTime.toString());
-                              // Future.delayed(
-                              //   Duration(seconds: 1),
-                              //   () => _key.currentState!.reset(),
-                              // );
+            // Container(
+            //   margin: const EdgeInsets.symmetric(vertical: 15),
+            //   width: screenWidth / 1.2,
+            //   child: Builder(
+            //     builder: (context) {
+            //       final GlobalKey<SlideActionState> _key = GlobalKey();
+            //       return Padding(
+            //         padding: const EdgeInsets.all(8.0),
+            //         child: Consumer<AttendanceProvider>(
+            //           builder: (BuildContext context,
+            //                   AttendanceProvider attendanceProvider, _) =>
+            //               Consumer<SlideActionProvider>(
+            //             builder: (BuildContext context,
+            //                     SlideActionProvider slideActionProvider, _) =>
+            //                 Consumer<DateTimeProvider>(
+            //               builder: (BuildContext context,
+            //                       DateTimeProvider dateTimeProvider, _) =>
+            //                   SlideAction(
+            //                       text: slideActionProvider.actionText,
+            //                       textStyle: FontStyle.textStyle(
+            //                           screenWidth / 20,
+            //                           Colors.redAccent,
+            //                           FontWeight.w500),
+            //                       outerColor: Colors.white,
+            //                       innerColor: Colors.redAccent,
+            //                       key: _key,
+            //                       onSubmit: () async {
+            //                         final now = DateTime.now();
 
-                              // if (recognitionProvider.person?.name == null ||
-                              //     recognitionProvider.person?.name ==
-                              //         "unknown") {
-                              //   ScaffoldMessenger.of(context).showSnackBar(
-                              //     const SnackBar(
-                              //       content: Text(
-                              //           "Please take your face picture again"),
-                              //     ),
-                              //   );
-                              // } else {
-                              //   QuerySnapshot snap = await FirebaseFirestore
-                              //       .instance
-                              //       .collection("student")
-                              //       .where(
-                              //           'id') // sesuaikan userId dengan id pengguna
-                              //       .get();
+            //                         final cutOffTimeStart = DateTime(
+            //                             now.year, now.month, now.day, 7, 30);
 
-                              //   if (snap.docs.isNotEmpty) {
-                              //     // Mendapatkan document ID
-                              //     String docId = snap.docs[0].id;
+            //                         final formattedTime = dateTimeProvider
+            //                             .formattedTime
+            //                             .toString()
+            //                             .substring(0, 5);
 
-                              //     // Update field checkIn dan checkOut
+            //                         if (now.isBefore(cutOffTimeStart)) {
+            //                           ScaffoldMessenger.of(context)
+            //                               .showSnackBar(
+            //                             const SnackBar(
+            //                               content: Text(
+            //                                   "Absences cannot be made before half past 8 am."),
+            //                             ),
+            //                           );
+            //                           return;
+            //                         }
 
-                              //     if (slideActionProvider.text ==
-                              //         "Slide to check in") {
-                              //       await FirebaseFirestore.instance
-                              //           .collection("student")
-                              //           .doc(docId)
-                              //           .update({
-                              //         "checkIn": dateTimeProvider.formattedTime
-                              //             .toString(),
-                              //         // "checkOut":
-                              //         //     dateTimeProvider.formattedTime.toString()
-                              //       });
-                              //       slideActionProvider.setText =
-                              //           "Slide to check out";
-                              //       dateTimeProvider.setChekInTime =
-                              //           dateTimeProvider.formattedTime
-                              //               .toString();
-                              //     } else if (slideActionProvider.text ==
-                              //         "Slide to check out") {
-                              //       await FirebaseFirestore.instance
-                              //           .collection("student")
-                              //           .doc(docId)
-                              //           .update({
-                              //         "checkOut": dateTimeProvider.formattedTime
-                              //             .toString(),
-                              //         // "checkOut":
-                              //         //     dateTimeProvider.formattedTime.toString()
-                              //       });
-                              //       slideActionProvider.setText =
-                              //           "Slide to check in";
-                              //       dateTimeProvider.setChekoutTime =
-                              //           dateTimeProvider.formattedTime
-                              //               .toString();
-                              //     }
-                              //   } else {
-                              //     print(
-                              //         "User dengan ID tersebut tidak ditemukan");
-                              //   }
+            //                         if (attendanceProvider.photoFile == null) {
+            //                           ScaffoldMessenger.of(context)
+            //                               .showSnackBar(
+            //                             const SnackBar(
+            //                               content: Text(
+            //                                   "Please take a photo of your face."),
+            //                             ),
+            //                           );
+            //                         } else if (attendanceProvider.photoFile !=
+            //                             null) {
+            //                           if (attendanceProvider.error == true) {
+            //                             ScaffoldMessenger.of(context)
+            //                                 .showSnackBar(
+            //                               const SnackBar(
+            //                                 content: Text(
+            //                                     "your face is not recognized please try again"),
+            //                               ),
+            //                             );
+            //                           } else {
+            //                             if (slideActionProvider.actionText ==
+            //                                 "Slide to check in") {
+            //                               slideActionProvider.setText =
+            //                                   "Slide to check out";
+            //                               slideActionProvider.setAction =
+            //                                   "check_in";
+            //                             } else if (slideActionProvider
+            //                                     .actionText ==
+            //                                 "Slide to check out") {
+            //                               slideActionProvider.setText =
+            //                                   "Slide to check in";
+            //                               slideActionProvider.setAction =
+            //                                   "check_out";
+            //                             }
+            //                           }
 
-                              //   print(snap.docs[0].id);
-                              // }
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
+            //                           attendanceProvider.attendance(
+            //                             slideActionProvider.action ?? "",
+            //                             formattedTime,
+            //                           );
+            //                         }
+            //                       }),
+            //             ),
+            //           ),
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
             Center(
               child: Container(
-                padding: EdgeInsets.symmetric(vertical: 25),
+                margin: const EdgeInsets.symmetric(vertical: 20),
+                padding: const EdgeInsets.symmetric(vertical: 25),
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     boxShadow: [
@@ -239,10 +236,10 @@ class AttendanceScreen extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: Column(
                   children: [
-                    Consumer<RecognitionProvider>(
+                    Consumer<AttendanceProvider>(
                       builder: (BuildContext context,
-                          RecognitionProvider recognitionProvider, _) {
-                        return recognitionProvider.photoFile == null
+                          AttendanceProvider attendanceProvider, _) {
+                        return attendanceProvider.photoFile == null
                             ? Container(
                                 width: 300,
                                 height: 300,
@@ -251,94 +248,21 @@ class AttendanceScreen extends StatelessWidget {
                                         image: AssetImage(
                                             "assets/icons/face-scan.png"))),
                               )
-                            : Container(
+                            : SizedBox(
                                 width: 300,
                                 height: 300,
                                 child: Image.file(
-                                  recognitionProvider.photoFile!,
+                                  attendanceProvider.photoFile!,
                                   fit: BoxFit.fitHeight,
                                 ),
                               );
                       },
                     ),
-                    // Consumer<RecognitionProvider>(
-                    //   builder: (BuildContext contetx,
-                    //           RecognitionProvider recognitionProvider, _) =>
-                    //       recognitionProvider.person?.name == null &&
-                    //               recognitionProvider.person?.nim == null
-                    //           ? Container(
-                    //               padding: const EdgeInsets.symmetric(
-                    //                   vertical: 15, horizontal: 20),
-                    //               decoration: const BoxDecoration(
-                    //                   color: Colors.white,
-                    //                   boxShadow: [
-                    //                     BoxShadow(
-                    //                         color: Colors.black12,
-                    //                         blurRadius: 10,
-                    //                         offset: Offset(2, 2))
-                    //                   ],
-                    //                   borderRadius:
-                    //                       BorderRadius.all(Radius.circular(20))),
-                    //               child: Text(
-                    //                 "Please take a picture of your face!!",
-                    //                 style: FontStyle.textStyle(
-                    //                     15, Colors.black54, FontWeight.w500),
-                    //               ),
-                    //             )
-                    //           : Row(
-                    //               mainAxisAlignment: MainAxisAlignment.center,
-                    //               children: [
-                    //                 RichText(
-                    //                     text: TextSpan(
-                    //                         text: "Name : ",
-                    //                         style: FontStyle.textStyle(
-                    //                             screenWidth / 25,
-                    //                             Colors.black,
-                    //                             FontWeight.w500),
-                    //                         children: [
-                    //                       TextSpan(
-                    //                           text: recognitionProvider
-                    //                                   .person?.name ??
-                    //                               "----",
-                    //                           style: FontStyle.textStyle(
-                    //                               screenWidth / 25,
-                    //                               Colors.black54,
-                    //                               FontWeight.w500))
-                    //                     ])),
-                    //                 const SizedBox(
-                    //                   width: 20,
-                    //                 ),
-                    //                 RichText(
-                    //                     text: TextSpan(
-                    //                         text: "NIM : ",
-                    //                         style: FontStyle.textStyle(
-                    //                             screenWidth / 25,
-                    //                             Colors.black,
-                    //                             FontWeight.w500),
-                    //                         children: [
-                    //                       TextSpan(
-                    //                           text: (recognitionProvider
-                    //                                           .person?.nim
-                    //                                           .toString() ==
-                    //                                       "0"
-                    //                                   ? "unknown"
-                    //                                   : recognitionProvider
-                    //                                       .person?.nim
-                    //                                       .toString()) ??
-                    //                               "----",
-                    //                           style: FontStyle.textStyle(
-                    //                               screenWidth / 25,
-                    //                               Colors.black54,
-                    //                               FontWeight.w500))
-                    //                     ]))
-                    //               ],
-                    //             ),
-                    // ),
                     Container(
                       padding: const EdgeInsets.only(top: 10),
-                      child: Consumer<RecognitionProvider>(
+                      child: Consumer<AttendanceProvider>(
                         builder: (BuildContext context,
-                                RecognitionProvider recognitionProvider, _) =>
+                                AttendanceProvider attendanceProvider, _) =>
                             TextButton(
                                 style: ButtonStyle(
                                   shape: MaterialStateProperty.all(
@@ -347,7 +271,8 @@ class AttendanceScreen extends StatelessWidget {
                                       MaterialStateProperty.all(Colors.white),
                                 ),
                                 onPressed: () {
-                                  recognitionProvider.recognition();
+                                  // attendanceProvider.imagePicker();
+                                  // attendanceProvider.attendance("", timeStamp)
                                 },
                                 child: const Icon(
                                   Icons.camera_alt_outlined,

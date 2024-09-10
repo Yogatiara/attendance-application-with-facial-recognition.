@@ -11,10 +11,10 @@ load_dotenv(dotenv_path=env_path)
 SECRET_KEY = os.getenv('SECRET_KEY')
 ALGORITHM = os.getenv('ALGORITHM')
 
-ACCESS_TOKEN_EXPIRE = 30
+ACCESS_TOKEN_EXPIRE = 60
 
-def create_access_token(user_id: int, userame: str, nim :int):
-  encode = {"id": user_id, "name": userame, "nim": nim}
+def create_access_token(user_id: int, username: str, nim :int):
+  encode = {"user_id": user_id, "username": username, "nim": nim}
   access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE)
 
   expires = datetime.now(timezone.utc) + access_token_expires

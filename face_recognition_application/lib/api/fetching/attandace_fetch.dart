@@ -1,45 +1,62 @@
 import 'dart:io';
 import 'dart:async';
 import 'package:dio/dio.dart';
-import 'package:face_recognition_application/api/model/person_model.dart';
+import 'package:face_recognition_application/api/model/attendance_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-abstract class Recognition {
+abstract class Attendance {
   static Future<void> initialize() async {
     await dotenv.load(fileName: ".env");
   }
 
-  static Future<Person?> runRecognition(File photoFile) async {
+  static Future<AttendanceModel?> atendance(
+      String action, String timeStamp, File faceImage, String token) async {
     try {
       var formData = FormData.fromMap({
-        'file': await MultipartFile.fromFile(photoFile.path),
+        'action': action,
+        'time_stamp': timeStamp,
+        'face_image': await MultipartFile.fromFile(faceImage.path),
       });
 
-      var res = await Dio()
-          .post("${dotenv.env["API_URL"]}recognition/", data: formData);
+      var res = await Dio().post(
+        "${dotenv.env["API_URL"]}/user/attendance/",
+        data: formData,
+        options: Options(
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (res.statusCode == 401) {
+        final prefs = await SharedPreferences.getInstance();
+
+        await prefs.remove('token');
+      }
 
       if (res.statusCode == 201) {
-        return Person(
-          name: res.data["name"],
-          nim: res.data["NIM"],
-        );
-      } else {
-        throw Exception('Failed to recognize face');
+        // return AttendanceModel(token: token)
+      }
+
+      //   if (res.statusCode == 201) {
+      //     return {
+      //       'success': true,
+      //       'data': res.data,
+      //     };
+      //   }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        // return {
+        //   'success': false,
+        //   'message': e.response?.data['detail'],
+        // };
       }
     } catch (e) {
       throw Exception(e.toString());
     }
-  }
 
-  // static Future<void> uploadPhoto(
-  //     File photoFile, String name, String nim) async {
-  //   try {
-  //     var formData = FormData.fromMap({
-  //       'file': await MultipartFile.fromFile(photoFile.path),
-  //     });
-  //     await Dio().post("http://192.168.98.163:8000/upload/", data: formData);
-  //   } catch (e) {
-  //     log(e.toString()); // Log the exception for debugging
-  //   }
-  // }
+    return null;
+  }
 }

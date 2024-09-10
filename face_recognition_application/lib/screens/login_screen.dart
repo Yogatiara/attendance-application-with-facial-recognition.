@@ -1,7 +1,11 @@
 import 'package:face_recognition_application/api/fetching/auth_fetch.dart';
+import 'package:face_recognition_application/api/model/error_model.dart';
+import 'package:face_recognition_application/api/model/user_model.dart';
+import 'package:face_recognition_application/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:face_recognition_application/font/font_style.dart';
+import 'package:provider/provider.dart';
 
 final formKey = GlobalKey<FormState>();
 
@@ -50,33 +54,30 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
     final nim = int.parse(nimController.text);
     final password = passController.text;
 
-    final user = await Auth.login(nim, password);
+    final res = await Auth.login(nim, password);
 
     setState(() {
       isLoading = false;
     });
 
-    if (user?["success"]) {
+    if (res is UserModel) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Login successfull"),
+        SnackBar(
+          content: Text(res.message),
           backgroundColor:
               Colors.green, // Menambahkan warna merah pada SnackBar
         ),
       );
-
       setState(() {
         isDisable = true;
       });
       Future.delayed(const Duration(seconds: 1), () {
         Navigator.pushReplacementNamed(context, '/attendance');
       });
-
-      // Navigasi atau aksi setelah login berhasil
-    } else {
+    } else if (res is ErrorModel) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text("${user!["message"]}"),
+          content: Text(res.detail),
           backgroundColor: Colors.red.shade400,
         ),
       );
@@ -93,17 +94,20 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
       decoration: const BoxDecoration(
         color: Colors.redAccent,
       ),
-      child: Scaffold(
-        backgroundColor: Colors.black12,
-        body: Stack(
-          children: [
-            Positioned(top: 52, child: buildTop()),
-            Positioned(
-                bottom: -5,
-                right: -3,
-                left: -3,
-                child: buildBottom(context, screenWidth))
-          ],
+      child: ChangeNotifierProvider<UserProvider>(
+        create: (BuildContext context) => UserProvider(),
+        child: Scaffold(
+          backgroundColor: Colors.black12,
+          body: Stack(
+            children: [
+              Positioned(top: 52, child: buildTop()),
+              Positioned(
+                  bottom: -5,
+                  right: -3,
+                  left: -3,
+                  child: buildBottom(context, screenWidth))
+            ],
+          ),
         ),
       ),
     );
@@ -285,7 +289,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
     return ElevatedButton(
       onPressed: isLoading || isDisable
           ? null
-          : () {
+          : () async {
               if (nimController.text.isEmpty || passController.text.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -305,14 +309,20 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
         minimumSize: const Size.fromHeight(60),
       ).copyWith(
         backgroundColor: MaterialStateProperty.resolveWith<Color>(
+            (Set<MaterialState> states) {
+          if (isLoading || isDisable) {
+            return Colors.redAccent; // Set color for disabled state
+          }
+          return Colors.redAccent;
+        }),
+        shadowColor: MaterialStateProperty.resolveWith<Color>(
           (Set<MaterialState> states) {
             if (isLoading || isDisable) {
-              return Colors.redAccent; // Set color for disabled state
+              return Colors.red; // Set shadow color for disabled state
             }
-            return Colors.redAccent; // Set color for enabled state
+            return Colors.red;
           },
         ),
-        shadowColor: MaterialStateProperty.all<Color>(Colors.red),
       ),
       child: isLoading
           ? const SizedBox(

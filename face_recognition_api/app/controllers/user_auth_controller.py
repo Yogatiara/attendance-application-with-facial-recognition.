@@ -58,7 +58,7 @@ async def createUser(user_name: Annotated[str, Form(...)],
         "status_code": status.HTTP_201_CREATED,
         "message": "Successfull to register",
         "data": {
-            "id": db_user.user_id,  
+            "user_id": db_user.user_id,  
             "username": db_user.user_name,
             "nim": db_user.nim,
             "email": db_user.email,
@@ -100,11 +100,11 @@ async def login(
     db.refresh(find_user)
     return {
         "status_code": status.HTTP_200_OK,
-        "message": "Register successfull",
+        "message": "Login successfull",
         "access_token": access_token,
         "token_type": "bearer",
         "data": {
-            "id": find_user.user_id,  
+            "user_id": find_user.user_id,  
             "username": find_user.user_name,
             "nim": find_user.nim,
         }
@@ -112,10 +112,14 @@ async def login(
 
   except HTTPException:
       db.rollback()
-      raise HTTPException(
-          status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-          detail="Failed to login user"
-      )
+      raise e
+
+  except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Terjadi kesalahan server: " + str(e)
+        )
 
 @router.post("/logout/", summary="Logout user")
 async def logout(credentials: HTTPAuthorizationCredentials = Depends(security)):
@@ -183,5 +187,23 @@ async def changePassword(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail="Failed to update password"
         )
+
+@router.get("/verify-token/", summary="Verify user token") 
+async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
+
+    token = credentials.credentials
+    user_info = manage_token.verify_token(token)
+
+    if not user_info:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid token"
+        )
+
+    return {
+        "status_code": status.HTTP_200_OK,
+        "message": "Token is valid",
+        "data": user_info
+    }
 
    

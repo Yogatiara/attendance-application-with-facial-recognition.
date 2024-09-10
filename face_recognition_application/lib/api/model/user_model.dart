@@ -1,16 +1,20 @@
 import 'dart:io';
 
-class User {
+class UserModel {
+  int? userId;
   String? userName;
   String? email;
   int? nim;
   File? faceIamge;
-  String token;
+  String? token;
+  String message;
 
-  User(
-      {this.userName,
+  UserModel(
+      {this.userId,
+      this.userName,
       this.email,
       this.nim,
       this.faceIamge,
-      required this.token});
+      this.token,
+      required this.message});
 }

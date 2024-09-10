@@ -1,33 +1,36 @@
 import 'package:face_recognition_application/api/fetching/attandace_fetch.dart';
-import 'package:face_recognition_application/screens/attendance_screen.dart';
 import 'package:face_recognition_application/screens/login_screen.dart';
 import 'package:face_recognition_application/utils/navigation.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Make sure binding is initialized
-
-  // Initialize Firebase
-
-  // Initialize Recognition API
-  await Recognition.initialize();
+  WidgetsFlutterBinding.ensureInitialized(); //
 
   // Run the app after initializations are complete
-  runApp(const MainApp());
+  await Attendance.initialize();
+
+  final prefs = await SharedPreferences.getInstance();
+  final authToken = prefs.getString('token');
+  // final initialRoute = authToken != null ? '/attendance' : '/login';
+
+  var initialRoute = "/login";
+  runApp(MainApp(initialRoute: initialRoute));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  final String initialRoute;
+
+  const MainApp({super.key, required this.initialRoute});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: const LoginScreen(),
+      initialRoute: initialRoute,
       routes: {
+        '/login': (context) => const LoginScreen(),
         '/attendance': (context) => const Navigation(),
-        // '/controllerPage': (context) => const ControllerPage()
       },
     );
   }
