@@ -13,9 +13,8 @@ void main() async {
 
   final prefs = await SharedPreferences.getInstance();
   final authToken = prefs.getString('token');
-  // final initialRoute = authToken != null ? '/attendance' : '/login';
+  final initialRoute = authToken != null ? '/attendance' : '/login';
 
-  var initialRoute = "/login";
   runApp(MainApp(initialRoute: initialRoute));
 }
 

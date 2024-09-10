@@ -1,11 +1,9 @@
 import 'package:face_recognition_application/api/fetching/auth_fetch.dart';
 import 'package:face_recognition_application/api/model/error_model.dart';
 import 'package:face_recognition_application/api/model/user_model.dart';
-import 'package:face_recognition_application/provider/user_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:face_recognition_application/font/font_style.dart';
-import 'package:provider/provider.dart';
 
 final formKey = GlobalKey<FormState>();
 
@@ -94,20 +92,17 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
       decoration: const BoxDecoration(
         color: Colors.redAccent,
       ),
-      child: ChangeNotifierProvider<UserProvider>(
-        create: (BuildContext context) => UserProvider(),
-        child: Scaffold(
-          backgroundColor: Colors.black12,
-          body: Stack(
-            children: [
-              Positioned(top: 52, child: buildTop()),
-              Positioned(
-                  bottom: -5,
-                  right: -3,
-                  left: -3,
-                  child: buildBottom(context, screenWidth))
-            ],
-          ),
+      child: Scaffold(
+        backgroundColor: Colors.black12,
+        body: Stack(
+          children: [
+            Positioned(top: 52, child: buildTop()),
+            Positioned(
+                bottom: -5,
+                right: -3,
+                left: -3,
+                child: buildBottom(context, screenWidth))
+          ],
         ),
       ),
     );

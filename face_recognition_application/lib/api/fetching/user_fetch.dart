@@ -10,7 +10,7 @@ class User {
 
   static Future<dynamic> getUser(String token) async {
     try {
-      final res = await Dio().post(
+      final res = await Dio().get(
         "${dotenv.env["API_URL"]}/user/get-user/",
         options: Options(
           headers: {
@@ -21,13 +21,22 @@ class User {
 
       if (res.statusCode == 200) {
         return UserModel(
-            userId: res.data["data"]["user_id"], message: res.data["message"]);
+            userId: res.data["data"]["user_id"],
+            userName: res.data["data"]["username"],
+            message: res.data["message"]);
       }
     } on DioException catch (e) {
       if (e.response != null) {
-        // return ErrorModel(
-        //     statusCode: e.response?.data["status_code"],
-        //     detail: e.response?.data["detail"]);
+        if (e.response != null) {
+          if (e.response?.statusCode != 401) {
+            return ErrorModel(
+                statusCode: e.response?.statusCode, detail: "Server error");
+          } else {
+            return ErrorModel(
+                statusCode: e.response?.statusCode,
+                detail: e.response?.data["detail"]);
+          }
+        }
       }
     }
   }
