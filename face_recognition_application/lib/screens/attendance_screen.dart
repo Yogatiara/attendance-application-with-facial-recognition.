@@ -10,8 +10,21 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-class AttendanceScreen extends StatelessWidget {
+class AttendanceScreen extends StatefulWidget {
   const AttendanceScreen({super.key});
+
+  @override
+  State<AttendanceScreen> createState() => _AttendanceScreenState();
+}
+
+class _AttendanceScreenState extends State<AttendanceScreen> {
+  late Future<dynamic> _userDataFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _userDataFuture = _userData();
+  }
 
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
@@ -25,43 +38,53 @@ class AttendanceScreen extends StatelessWidget {
     }
   }
 
+  Future<void> _refreshData() async {
+    setState(() {
+      _userDataFuture = _userData();
+    });
+    await _userDataFuture;
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     final screenSize = MediaQuery.of(context).size;
 
-    return FutureBuilder<dynamic>(
-      future: _userData(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
-            child: Container(
-              width: screenSize.width,
-              height: screenSize.height, // Opsional,
-              color: Colors.redAccent,
-              child: LoadingAnimationWidget.fourRotatingDots(
-                  size: 90, color: Colors.white),
-            ),
-          );
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text("Error: ${snapshot.error}"),
-          );
-        } else if (snapshot.hasData &&
-            snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.data is UserModel) {
-            final data = snapshot.data as UserModel;
+    return RefreshIndicator(
+      onRefresh: _refreshData,
+      color: Colors.redAccent,
+      child: FutureBuilder<dynamic>(
+        future: _userDataFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(
+              child: Container(
+                width: screenSize.width,
+                height: screenSize.height,
+                color: Colors.redAccent,
+                child: LoadingAnimationWidget.fourRotatingDots(
+                    size: 90, color: Colors.white),
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text("Error: ${snapshot.error}"),
+            );
+          } else if (snapshot.hasData &&
+              snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.data is UserModel) {
+              final data = snapshot.data as UserModel;
 
-            return MultiProvider(
-              providers: [
-                ChangeNotifierProvider(create: (context) => DateTimeProvider()),
-                ChangeNotifierProvider(
-                  create: (context) => AttendanceProvider(),
-                ),
-              ],
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(20),
-                child: Column(
+              return MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(
+                      create: (context) => DateTimeProvider()),
+                  ChangeNotifierProvider(
+                    create: (context) => AttendanceProvider(),
+                  ),
+                ],
+                child: ListView(
+                  padding: const EdgeInsets.all(20),
                   children: [
                     Container(
                       alignment: Alignment.centerLeft,
@@ -82,7 +105,7 @@ class AttendanceScreen extends StatelessWidget {
                     ),
                     Container(
                       alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.only(top: 32),
+                      padding: const EdgeInsets.only(top: 20),
                       child: FontStyle.buildText(
                           "Today's status", screenWidth / 18, Colors.black),
                     ),
@@ -95,9 +118,10 @@ class AttendanceScreen extends StatelessWidget {
                             BoxShadow(
                                 color: Colors.red.shade300,
                                 blurRadius: 10,
-                                offset: Offset(2, 2))
+                                offset: const Offset(2, 2))
                           ],
-                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(20))),
                       child: Consumer<DateTimeProvider>(
                         builder: (BuildContext context,
                                 DateTimeProvider dateTimeProvider, _) =>
@@ -167,11 +191,15 @@ class AttendanceScreen extends StatelessWidget {
                         )),
                     Center(
                       child: Container(
-                        margin: const EdgeInsets.symmetric(vertical: 20),
-                        padding: const EdgeInsets.symmetric(vertical: 25),
-                        decoration: const BoxDecoration(
+                        margin: const EdgeInsets.only(top: 13),
+                        padding: const EdgeInsets.symmetric(vertical: 17),
+                        decoration: BoxDecoration(
                             color: Colors.white,
-                            boxShadow: [
+                            border: Border.all(
+                              color: Colors.redAccent, // Warna border
+                              width: 1.0, // Ketebalan border
+                            ),
+                            boxShadow: const [
                               BoxShadow(
                                   color: Colors.black12,
                                   blurRadius: 10,
@@ -187,7 +215,7 @@ class AttendanceScreen extends StatelessWidget {
                                 return attendanceProvider.photoFile == null
                                     ? Container(
                                         width: 300,
-                                        height: 300,
+                                        height: 320,
                                         decoration: const BoxDecoration(
                                             image: DecorationImage(
                                                 image: AssetImage(
@@ -195,7 +223,7 @@ class AttendanceScreen extends StatelessWidget {
                                       )
                                     : SizedBox(
                                         width: 300,
-                                        height: 300,
+                                        height: 320,
                                         child: Image.file(
                                           attendanceProvider.photoFile!,
                                           fit: BoxFit.fitHeight,
@@ -203,9 +231,13 @@ class AttendanceScreen extends StatelessWidget {
                                       );
                               },
                             ),
-                            Container(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: Consumer<AttendanceProvider>(
+                            const SizedBox(
+                              height: 6.5,
+                            ),
+                            Consumer<DateTimeProvider>(
+                              builder: (BuildContext context,
+                                      DateTimeProvider dateTimeProvider, _) =>
+                                  Consumer<AttendanceProvider>(
                                 builder: (BuildContext context,
                                         AttendanceProvider attendanceProvider,
                                         _) =>
@@ -219,7 +251,9 @@ class AttendanceScreen extends StatelessWidget {
                                         ),
                                         onPressed: () {
                                           // attendanceProvider.imagePicker();
-                                          // attendanceProvider.attendance("", timeStamp)
+                                          attendanceProvider.attendance(
+                                              dateTimeProvider.formattedTime
+                                                  .toString());
                                         },
                                         child: const Icon(
                                           Icons.camera_alt_outlined,
@@ -234,20 +268,42 @@ class AttendanceScreen extends StatelessWidget {
                     )
                   ],
                 ),
-              ),
-            );
-          } else if (snapshot.data is ErrorModel) {
-            final error = snapshot.data as ErrorModel;
-            return Center(
-              child: Text("Error: ${error.detail}"),
-            );
+              );
+            } else if (snapshot.data is ErrorModel) {
+              final error = snapshot.data as ErrorModel;
+              return ListView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                children: [
+                  SizedBox(
+                    height: screenSize.height / 1.15,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            'assets/images/server_error.jpg',
+                            width: 350,
+                            height: 250,
+                          ),
+                          Text(
+                            error.detail,
+                            style: FontStyle.textStyle(
+                                40, Colors.redAccent, FontWeight.w800),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              return const Center(child: Text("Unexpected data format"));
+            }
           } else {
-            return const Center(child: Text("Unexpected data format"));
+            return const Center(child: Text("No user data available"));
           }
-        } else {
-          return const Center(child: Text("No user data available"));
-        }
-      },
+        },
+      ),
     );
   }
 }

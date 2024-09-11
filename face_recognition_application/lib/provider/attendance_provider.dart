@@ -25,18 +25,19 @@ class AttendanceProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> attendance(String action, String timeStamp) async {
+  Future<void> attendance(String dateTime) async {
     final prefs = await SharedPreferences.getInstance();
     final authToken = prefs.getString('token');
     final ImagePicker picker = ImagePicker();
 
-    final XFile? image = await picker.pickImage(source: ImageSource.camera);
-    final LostDataResponse response = await picker.retrieveLostData();
+    print(dateTime.split(" ")[0].split(":").sublist(0, 2).join(":"));
+
+    // final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    // final LostDataResponse response = await picker.retrieveLostData();
 
     try {
       _isLoading = true;
       _error = null;
-      notifyListeners();
 
       final XFile? image = await picker.pickImage(source: ImageSource.camera);
       final LostDataResponse response = await picker.retrieveLostData();
@@ -61,7 +62,7 @@ class AttendanceProvider with ChangeNotifier {
       _error = "An error occurred during recognition: $e";
     } finally {
       _isLoading = false;
-      notifyListeners();
+      // notifyListeners();
     }
 
     notifyListeners();

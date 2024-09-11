@@ -268,7 +268,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
                   });
                 },
               )
-            : const Icon(Icons.done, color: Colors.redAccent),
+            : const Icon(Icons.numbers, color: Colors.redAccent),
         hintText: hintText,
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(color: Colors.red, width: 1),
@@ -285,17 +285,24 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
       onPressed: isLoading || isDisable
           ? null
           : () async {
-              if (nimController.text.isEmpty) {
+              if (nimController.text.isEmpty && passController.text.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text('Password cannot be empty'),
+                    content: const Text('NIM and password cannot be empty'),
                     backgroundColor: Colors.red[400],
                   ),
                 );
               } else if (nimController.text.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text('NIM  cannot be empty'),
+                    content: const Text('NIM cannot be empty'),
+                    backgroundColor: Colors.red[400],
+                  ),
+                );
+              } else if (passController.text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: const Text('Password  cannot be empty'),
                     backgroundColor: Colors.red[400],
                   ),
                 );
