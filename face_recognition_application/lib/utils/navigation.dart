@@ -23,22 +23,29 @@ class _NavigationState extends State<Navigation> with WidgetsBindingObserver {
     ProfileScreen(),
   ];
 
+  Future<String?> _getToken() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
+
   Future<void> verifyToken() async {
-    // final prefs = await SharedPreferences.getInstance();
-    // final authToken = prefs.getString('token');
-    // final token = await Auth.verifToken(authToken!);
+    final getToken = await _getToken();
 
-    // if (token?["message"] == 401) {
-    //   Navigator.pushReplacementNamed(context, '/login');
-    //   await prefs.remove('token');
+    final token = await Auth.verifyToken(getToken!);
 
-    //   // Navigasi atau aksi setelah login berhasil
-    // }
+    if (token?.statusCode == 401) {
+      final prefs = await SharedPreferences.getInstance();
+
+      Navigator.pushReplacementNamed(context, '/login');
+      await prefs.remove('token');
+    }
   }
 
   @override
   void initState() {
     super.initState();
+    verifyToken();
+
     WidgetsBinding.instance.addObserver(this);
   }
 

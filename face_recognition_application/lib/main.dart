@@ -6,9 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); //
+  WidgetsFlutterBinding.ensureInitialized();
 
-  // Run the app after initializations are complete
   await Attendance.initialize();
 
   final prefs = await SharedPreferences.getInstance();

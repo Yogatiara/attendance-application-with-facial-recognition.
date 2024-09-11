@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:face_recognition_application/api/fetching/verify_toke_fetch.dart';
 import 'package:face_recognition_application/api/model/error_model.dart';
 import 'package:face_recognition_application/api/model/user_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -45,33 +44,31 @@ class Auth {
     return null;
   }
 
-  // static Future<VerifyToken?> verifToken(String token) async {
-  //   // try {
-  //   //   final res = await Dio().get(
-  //   //     "${dotenv.env["API_URL"]}/users/verify-token/",
-  //   //     options: Options(
-  //   //       headers: {
-  //   //         'Authorization': 'Bearer $token',
-  //   //       },
-  //   //     ),
-  //   //   );
-  //   //   if (res.statusCode == 200) {
-  //   //     return {
-  //   //       'success': true,
-  //   //       'data': res.data["data"],
-  //   //     };
-  //   //   }
-  //   // } on DioException catch (e) {
-  //   //   if (e.response != null) {
-  //   //     return {
-  //   //       'success': false,
-  //   //       'message': e.response?.data['status_code'],
-  //   //     };
-  //   //   }
-  //   // } catch (e) {
-  //   //   throw Exception(e.toString());
-  //   // }
+  static Future<ErrorModel?> verifyToken(String token) async {
+    try {
+      final res = await Dio().get(
+        "${dotenv.env["API_URL"]}/user/verify-token/",
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+      // if (res.statusCode == 200) {
 
-  //   // return null;
-  // }
+      // }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        if (e.response?.statusCode != 401) {
+          return ErrorModel(
+              statusCode: e.response?.statusCode, detail: "Server error");
+        } else {
+          return ErrorModel(
+              statusCode: e.response?.statusCode,
+              detail: e.response?.data["detail"]);
+        }
+      }
+    }
+    return null;
+  }
 }

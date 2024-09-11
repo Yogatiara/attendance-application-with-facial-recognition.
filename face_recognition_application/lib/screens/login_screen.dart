@@ -285,10 +285,17 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
       onPressed: isLoading || isDisable
           ? null
           : () async {
-              if (nimController.text.isEmpty || passController.text.isEmpty) {
+              if (nimController.text.isEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                    content: const Text('NIM and Password cannot be empty'),
+                    content: const Text('Password cannot be empty'),
+                    backgroundColor: Colors.red[400],
+                  ),
+                );
+              } else if (nimController.text.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: const Text('NIM  cannot be empty'),
                     backgroundColor: Colors.red[400],
                   ),
                 );

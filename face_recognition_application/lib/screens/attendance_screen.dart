@@ -37,9 +37,8 @@ class AttendanceScreen extends StatelessWidget {
           return Center(
             child: Container(
               width: screenSize.width,
-              height: screenSize
-                  .height, // Opsional, untuk memberikan jarak antara animasi dan tepi latar belakang
-              color: Colors.redAccent, // Latar belakang merah
+              height: screenSize.height, // Opsional,
+              color: Colors.redAccent,
               child: LoadingAnimationWidget.fourRotatingDots(
                   size: 90, color: Colors.white),
             ),
@@ -48,7 +47,8 @@ class AttendanceScreen extends StatelessWidget {
           return Center(
             child: Text("Error: ${snapshot.error}"),
           );
-        } else if (snapshot.hasData) {
+        } else if (snapshot.hasData &&
+            snapshot.connectionState == ConnectionState.done) {
           if (snapshot.data is UserModel) {
             final data = snapshot.data as UserModel;
 
