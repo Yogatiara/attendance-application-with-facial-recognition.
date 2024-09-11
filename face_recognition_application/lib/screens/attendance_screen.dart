@@ -253,6 +253,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                           // attendanceProvider.imagePicker();
                                           attendanceProvider.attendance(
                                               dateTimeProvider.formattedTime
+                                                  .toString(),
+                                              dateTimeProvider.formattedDate
                                                   .toString());
                                         },
                                         child: const Icon(

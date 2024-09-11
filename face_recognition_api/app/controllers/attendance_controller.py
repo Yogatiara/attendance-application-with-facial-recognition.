@@ -21,7 +21,8 @@ attendace_status = None
 @router.post("/attendance/")
 async def attendace(
     action : Annotated[str, Form(...)],
-    date_time: Annotated[str, Form(...)],
+    date: Annotated[str, Form(...)],
+    time: Annotated[str, Form(...)],
     target_face_image: Annotated[UploadFile, File(...)],  
     db:Annotated[Session, Depends(get_db)], 
     credentials: HTTPAuthorizationCredentials = Depends(security)):
@@ -40,12 +41,12 @@ async def attendace(
   # current_time = time_stamp.strftime("%H:%M")
 
   if action =="chek_in" :
-    if date_time <= chekin_time:
+    if time <= chekin_time:
       attendace_status = "on_time"
-    elif date_time > chekin_time:
+    elif time > chekin_time:
       attendace_status = "late"
   elif action == "chek_out":
-    if date_time < chekout_time:
+    if time < chekout_time:
       attendace_status = "early_leave"
 
 
@@ -64,9 +65,10 @@ async def attendace(
   
   db_attendance = attendance_model.Attendance(
     action = action, 
-    date_time=date_time, 
     status= attendace_status,
     target_face_image = file_path, 
+    time=time, 
+    date = date,
     user_id = user_info["id"]
   )
 
@@ -89,9 +91,10 @@ async def attendace(
         "data": {
             "attendance_id": db_attendance.attendace_id,  
             "action": db_attendance.action,
-            "time_stamp": db_attendance.date_time,
             "status": db_attendance.status,
             "target_face_image": db_attendance.target_face_image,
+            "time": db_attendance.time,
+            "date": db_attendance.date,
             "user_id": db_attendance.user_id
 
         }

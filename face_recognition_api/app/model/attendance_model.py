@@ -16,9 +16,10 @@ class Attendance(base):
   __tablename__ = 'attendance'
   attendace_id = Column(Integer, primary_key=True, index=True)
   action = Column(Enum(AttendanceAction), nullable= False)
-  date_time = Column(String(20), nullable=False)
   status = Column(Enum(StatusAttendance), nullable=False)
   target_face_image =  Column(String(255), nullable=True)
+  time = Column(String(20), nullable=False)
+  date = Column(String(20), nullable=False)
   user_id = Column(Integer, ForeignKey('user.user_id'),
    nullable=False)
 

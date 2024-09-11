@@ -8,4 +8,7 @@ local_tz = get_localzone()
 # Ambil waktu lokal saat ini
 local_time = datetime.now(local_tz)
 
-print("Waktu lokal:", local_time)
+# Ambil tanggal dalam format YYYY-MM-DD
+current_date = local_time.strftime("%d %b %Y")
+
+print("Tanggal lokal:", current_date)

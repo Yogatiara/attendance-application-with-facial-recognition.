@@ -25,12 +25,13 @@ class AttendanceProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> attendance(String dateTime) async {
+  Future<void> attendance(String time, String date) async {
     final prefs = await SharedPreferences.getInstance();
     final authToken = prefs.getString('token');
     final ImagePicker picker = ImagePicker();
 
-    print(dateTime.split(" ")[0].split(":").sublist(0, 2).join(":"));
+    print(time.split(" ")[0].split(":").sublist(0, 2).join(":"));
+    print(date);
 
     // final XFile? image = await picker.pickImage(source: ImageSource.camera);
     // final LostDataResponse response = await picker.retrieveLostData();
