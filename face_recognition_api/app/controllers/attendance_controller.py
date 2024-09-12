@@ -35,6 +35,8 @@ async def attendace(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid token"
     )
+    
+
   
   existing_attendances = attendance_checker.attendanceChecker(user_info["user_id"], db)
 
@@ -44,7 +46,16 @@ async def attendace(
             detail="You can only perform attendance twice per day."
         )
 
-
+  contents = await target_face_image.read()
+  succed = face_recognition.findSimilarity(contents, nim= user_info["nim"])
+  if succed == False:
+    raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Your face is unknown"
+    )
+  
+  file_path = upload_photos.uploadTargetPhotos(target_face_image, contents, user_info["username"], user_info["nim"], action )
+  
   attendace_status = None
 
   time = date_time.split(",")[0]
@@ -57,20 +68,6 @@ async def attendace(
     if time < chekout_time:
       attendace_status = "early_leave"
 
-
-  
-  contents = await target_face_image.read()
-
-  succed = face_recognition.findSimilarity(contents, nim= user_info["nim"])
-  if succed == False:
-    raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Your face is unknown"
-    )
-  
-
-  file_path = upload_photos.uploadTargetPhotos(target_face_image, contents, user_info["username"], user_info["nim"], action )
-  
   db_attendance = attendance_model.Attendance(
     action = action, 
     status= attendace_status,
@@ -78,8 +75,6 @@ async def attendace(
     date_time = date_time,
     user_id = user_info["user_id"]
   )
-
-  
 
   try:
     db.add(db_attendance)

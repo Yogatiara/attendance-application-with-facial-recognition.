@@ -46,13 +46,6 @@ abstract class Attendance {
             time: time,
             date: date);
       }
-
-      //   if (res.statusCode == 201) {
-      //     return {
-      //       'success': true,
-      //       'data': res.data,
-      //     };
-      //   }
     } on DioException catch (e) {
       if (e.response != null) {
         if (e.response?.statusCode != 400 || e.response?.statusCode != 401) {
