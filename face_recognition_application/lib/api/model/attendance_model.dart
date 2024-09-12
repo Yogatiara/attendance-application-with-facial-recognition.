@@ -2,14 +2,18 @@ import 'dart:io';
 
 class AttendanceModel {
   String? action;
-  String? timeStamp;
   String? status;
-  File? faceIamge;
+  File? targetFaceImage;
+  String? time;
+  String? date;
+  int? userId;
 
   AttendanceModel({
     this.action,
-    this.timeStamp,
     this.status,
-    this.faceIamge,
+    this.targetFaceImage,
+    this.time,
+    this.date,
+    this.userId,
   });
 }

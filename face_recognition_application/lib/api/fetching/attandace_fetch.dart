@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:face_recognition_application/api/model/attendance_model.dart';
+import 'package:face_recognition_application/api/model/error_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -10,13 +11,14 @@ abstract class Attendance {
     await dotenv.load(fileName: ".env");
   }
 
-  static Future<AttendanceModel?> atendance(
-      String action, String timeStamp, File faceImage, String token) async {
+  static Future<dynamic> atendance(String action, File targetFaceImage,
+      String time, String date, String token) async {
     try {
       var formData = FormData.fromMap({
         'action': action,
-        'time_stamp': timeStamp,
-        'face_image': await MultipartFile.fromFile(faceImage.path),
+        'target_face_image': await MultipartFile.fromFile(targetFaceImage.path),
+        'time': time,
+        'date': date,
       });
 
       var res = await Dio().post(
@@ -30,14 +32,19 @@ abstract class Attendance {
         ),
       );
 
-      if (res.statusCode == 401) {
-        final prefs = await SharedPreferences.getInstance();
+      // if (res.statusCode == 401) {
+      //   final prefs = await SharedPreferences.getInstance();
 
-        await prefs.remove('token');
-      }
+      //   await prefs.remove('token');
+      // }
 
       if (res.statusCode == 201) {
         // return AttendanceModel(token: token)
+        return AttendanceModel(
+            action: action,
+            targetFaceImage: targetFaceImage,
+            time: time,
+            date: date);
       }
 
       //   if (res.statusCode == 201) {
@@ -48,10 +55,14 @@ abstract class Attendance {
       //   }
     } on DioException catch (e) {
       if (e.response != null) {
-        // return {
-        //   'success': false,
-        //   'message': e.response?.data['detail'],
-        // };
+        if (e.response?.statusCode != 400 || e.response?.statusCode != 401) {
+          return ErrorModel(
+              statusCode: e.response?.statusCode, detail: "Server error");
+        } else {
+          return ErrorModel(
+              statusCode: e.response?.statusCode,
+              detail: e.response?.data["detail"]);
+        }
       }
     } catch (e) {
       throw Exception(e.toString());

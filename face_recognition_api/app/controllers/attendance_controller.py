@@ -5,7 +5,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from app.model import attendance_model
 from database import engine, get_db
-from utils import manage_token, face_recognition, upload_photos
+from utils import manage_token, face_recognition, upload_photos, attendance_checker
 
 security = HTTPBearer()
 
@@ -21,8 +21,7 @@ attendace_status = None
 @router.post("/attendance/")
 async def attendace(
     action : Annotated[str, Form(...)],
-    date: Annotated[str, Form(...)],
-    time: Annotated[str, Form(...)],
+    date_time: Annotated[str, Form(...)],
     target_face_image: Annotated[UploadFile, File(...)],  
     db:Annotated[Session, Depends(get_db)], 
     credentials: HTTPAuthorizationCredentials = Depends(security)):
@@ -36,10 +35,19 @@ async def attendace(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid token"
     )
+  
+  existing_attendances = attendance_checker.attendanceChecker(user_info["user_id"], db)
+
+  if existing_attendances >= 2:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="You can only perform attendance twice per day."
+        )
+
 
   attendace_status = None
-  # current_time = time_stamp.strftime("%H:%M")
 
+  time = date_time.split(",")[0]
   if action =="chek_in" :
     if time <= chekin_time:
       attendace_status = "on_time"
@@ -61,15 +69,14 @@ async def attendace(
     )
   
 
-  file_path = upload_photos.uploadTargetPhotos(target_face_image, contents, user_info["name"], user_info["nim"], action )
+  file_path = upload_photos.uploadTargetPhotos(target_face_image, contents, user_info["username"], user_info["nim"], action )
   
   db_attendance = attendance_model.Attendance(
     action = action, 
     status= attendace_status,
     target_face_image = file_path, 
-    time=time, 
-    date = date,
-    user_id = user_info["id"]
+    date_time = date_time,
+    user_id = user_info["user_id"]
   )
 
   
@@ -82,7 +89,7 @@ async def attendace(
     db.rollback()
     raise HTTPException(
         status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-        detail="Failed to register user"
+        detail="Failed to attendance"
     )
 
   return {
@@ -93,8 +100,7 @@ async def attendace(
             "action": db_attendance.action,
             "status": db_attendance.status,
             "target_face_image": db_attendance.target_face_image,
-            "time": db_attendance.time,
-            "date": db_attendance.date,
+            "date_time" : db_attendance.date_time,
             "user_id": db_attendance.user_id
 
         }
