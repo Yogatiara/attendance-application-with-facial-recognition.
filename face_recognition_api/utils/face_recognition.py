@@ -58,6 +58,7 @@ def findSimilarity(contents, nim: int):
     return True
   else:
     return False
+  
 def process_image(faces: list, img_array: list):
 
     face_areas = [(face.bbox[2] - face.bbox[0]) * (face.bbox[3] - face.bbox[1]) for face in faces]

@@ -9,8 +9,8 @@ class StatusAttendance(enum.Enum):
     early_leave = "early leave"
 
 class AttendanceAction(enum.Enum):
-    chek_in = "chekin"
-    chek_out = "chekout"
+    chekin = "chekin"
+    chekout = "chekout"
 
 class Attendance(base):
   __tablename__ = 'attendance'

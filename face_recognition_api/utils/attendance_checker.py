@@ -11,7 +11,7 @@ def attendanceChecker(user_id: int, db: Session):
 
     existing_attendances = db.query(attendance_model.Attendance).filter(
         attendance_model.Attendance.user_id == user_id,
-        attendance_model.Attendance.date_time.like(f"{current_date}%")
+        attendance_model.Attendance.date_time.like(f"%,{current_date}")
     ).count()
 
     return existing_attendances;

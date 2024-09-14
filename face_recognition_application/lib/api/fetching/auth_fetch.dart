@@ -32,8 +32,7 @@ class Auth {
     } on DioException catch (e) {
       if (e.response != null) {
         if (e.response?.statusCode != 401) {
-          return ErrorModel(
-              statusCode: e.response?.statusCode, detail: "Server error");
+          return ErrorModel(statusCode: 500, detail: "Server error");
         } else {
           return ErrorModel(
               statusCode: e.response?.statusCode,

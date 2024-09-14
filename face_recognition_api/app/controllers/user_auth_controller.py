@@ -13,7 +13,7 @@ router = APIRouter()
 
 user_model.base.metadata.create_all(bind=engine)
 
-@router.post("/register/")
+@router.post("/register/", status_code=status.HTTP_201_CREATED)
 async def createUser(user_name: Annotated[str, Form(...)], 
     nim: Annotated[int, Form(...)], email: Annotated[str, Form(...)], password : Annotated[str, Form(...)], face_image: Annotated[UploadFile, File(...)],  db:Annotated[Session, Depends(get_db)]):
   

@@ -36,7 +36,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       await uploadPhoto(File(_image!.path), name, nim);
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => AttendanceScreen(), // Kirim parameter id
+          builder: (context) => const AttendanceScreen(), // Kirim parameter id
         ),
       );
     } else {
@@ -69,7 +69,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Upload Form'),
+        title: const Text('Upload Form'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -78,36 +78,36 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: [
             ElevatedButton(
               onPressed: _pickImage,
-              child: Text('Upload Image'),
+              child: const Text('Upload Image'),
             ),
             if (_image != null) ...[
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               Image.file(
                 File(_image!.path),
                 height: 200,
                 fit: BoxFit.cover,
               ),
             ],
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
               controller: _nameController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Name',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
               controller: _nimController,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'NIM',
                 border: OutlineInputBorder(),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: _submitForm,
-              child: Text('Submit'),
+              child: const Text('Submit'),
             ),
           ],
         ),

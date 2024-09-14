@@ -2,6 +2,9 @@ from fastapi import APIRouter, File, HTTPException, Depends, UploadFile, status,
 from typing import Annotated
 from sqlalchemy.orm import Session
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.responses import FileResponse
+import os
+
 
 from app.model import attendance_model
 from database import engine, get_db
@@ -18,7 +21,7 @@ chekout_time = "15:30"
 attendace_status = None
 
 
-@router.post("/attendance/")
+@router.post("/attendance/", status_code=status.HTTP_201_CREATED)
 async def attendace(
     action : Annotated[str, Form(...)],
     date_time: Annotated[str, Form(...)],
@@ -42,8 +45,8 @@ async def attendace(
 
   if existing_attendances >= 2:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="You can only perform attendance twice per day."
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="You can only perform attendance twice per day"
         )
 
   contents = await target_face_image.read()
@@ -59,14 +62,14 @@ async def attendace(
   attendace_status = None
 
   time = date_time.split(",")[0]
-  if action =="chek_in" :
+  if action =="chekin" :
     if time <= chekin_time:
-      attendace_status = "on_time"
+      attendace_status = attendance_model.StatusAttendance.on_time
     elif time > chekin_time:
-      attendace_status = "late"
-  elif action == "chek_out":
+      attendace_status = attendance_model.StatusAttendance.late
+  elif action == "chekout":
     if time < chekout_time:
-      attendace_status = "early_leave"
+      attendace_status = attendance_model.StatusAttendance.early_leave
 
   db_attendance = attendance_model.Attendance(
     action = action, 
@@ -93,6 +96,8 @@ async def attendace(
         "data": {
             "attendance_id": db_attendance.attendace_id,  
             "action": db_attendance.action,
+            "user_name": user_info["username"],
+            "nim": user_info["nim"],
             "status": db_attendance.status,
             "target_face_image": db_attendance.target_face_image,
             "date_time" : db_attendance.date_time,
@@ -100,3 +105,4 @@ async def attendace(
 
         }
   }
+
