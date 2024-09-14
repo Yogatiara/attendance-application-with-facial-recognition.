@@ -108,7 +108,7 @@ async def attendace(
   }
 
 
-@router.get("/get-attendance", summary="Get user by token") 
+@router.get("/get-attendance", summary="Get attendance by date and action") 
 async def verify_token(date: str, action: str, db:Annotated[Session, Depends(get_db)], credentials: HTTPAuthorizationCredentials = Depends(security)):
 
   token = credentials.credentials
