@@ -94,7 +94,7 @@ async def login(
     )
 
   
-  access_token = manage_token.create_access_token(find_user.user_id, find_user.user_name, find_user.nim)
+  access_token = manage_token.create_access_token(find_user.user_id, find_user.nim)
 
   try:
     db.refresh(find_user)

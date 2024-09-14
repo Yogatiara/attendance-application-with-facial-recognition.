@@ -13,8 +13,8 @@ ALGORITHM = os.getenv('ALGORITHM')
 
 ACCESS_TOKEN_EXPIRE = 60
 
-def create_access_token(user_id: int, username: str, nim :int):
-  encode = {"user_id": user_id, "username": username, "nim": nim}
+def create_access_token(user_id: int, nim :int):
+  encode = {"user_id": user_id,  "nim": nim}
   access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE)
 
   expires = datetime.now(timezone.utc) + access_token_expires

@@ -14,10 +14,11 @@ router = APIRouter()
 user_model.base.metadata.create_all(bind=engine)
 
 @router.get("/get-user/", summary="Get user by token") 
-async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def verify_token(db:Annotated[Session, Depends(get_db)],  credentials: HTTPAuthorizationCredentials = Depends(security)):
 
   token = credentials.credentials
   user_info = manage_token.verify_token(token)
+  find_user = db.query(user_model.User).filter(user_model.User.nim ==  user_info["nim"]).first()
 
   if not user_info:
       raise HTTPException(
@@ -30,7 +31,7 @@ async def verify_token(credentials: HTTPAuthorizationCredentials = Depends(secur
       "message": "Get user is success",
       "data": {
           "user_id": user_info["user_id"],  
-          "username": user_info["username"],
+          "username": find_user.user_name,
           "nim": user_info["nim"],
       }
   }

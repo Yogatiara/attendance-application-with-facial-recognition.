@@ -16,3 +16,14 @@ def attendanceChecker(user_id: int, db: Session):
 
     return existing_attendances;
 
+def attendanceFilterByDateAndAction(user_id: int, date: str, action:str, db: Session):
+
+    attendance_records = db.query(attendance_model.Attendance).filter(
+        attendance_model.Attendance.user_id == user_id,
+        attendance_model.Attendance.date_time.like(f"%,{date}"),        
+        attendance_model.Attendance.action.like(f"{action}%")
+
+    ).all()
+
+    return attendance_records;
+

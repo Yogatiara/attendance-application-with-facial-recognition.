@@ -1,3 +1,4 @@
+import 'package:face_recognition_application/utils/capitalize_each_word.dart';
 import 'package:flutter/material.dart';
 import 'package:face_recognition_application/font/font_style.dart';
 
@@ -15,9 +16,9 @@ class DialogWidget {
                 children: [
                   Image.asset(
                    object.statusCode == 400?  "assets/icons/face-unknown.png":
-                   "assets/icons/forbidden-attendance.png",
-                    height: object.statusCode == 400?200: 150,
-                    width: object.statusCode == 400?200: 150,
+                   "assets/images/forbidden_attendance.png",
+                    height: object.statusCode == 400?200: 300,
+                    width: object.statusCode == 400?200: 300,
                   ),
                   const SizedBox(
                     height: 30,
@@ -62,12 +63,12 @@ class DialogWidget {
                     height: 30,
                   ),
                   Container(
-                    alignment: Alignment.centerLeft, // Pastikan alignment diatur ke kiri
+                    alignment: Alignment.centerLeft,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start, // Agar teks diatur ke kiri
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Name : ${object.userName}",
+                          "Name : ${capitalizeEachWord(object.userName)}",
                           style: FontStyle.textStyle(
                               15, Colors.black54, FontWeight.w400),
                         ),
@@ -77,10 +78,38 @@ class DialogWidget {
                               15, Colors.black54, FontWeight.w400),
                         ),
                         Text(
-                          "Status : ${object.status}",
+                          "action : ${object.action}",
                           style: FontStyle.textStyle(
                               15, Colors.black54, FontWeight.w400),
-                        )
+                        ),
+                        RichText(
+                          text: TextSpan(
+                            text: 'Status: ',
+                            style: const TextStyle(
+                              fontSize: 15,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.w400,
+                            ),
+                            children: <TextSpan>[
+                              TextSpan(
+                                text: object.status,
+                                style: TextStyle(
+                                  color: object.status == "on time"?Colors.green
+                                  : object.status == "late"? Colors.red: Colors.black54,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Text(
+                          "**check in at ${(object.dateTime).split(",")[0]}",
+                          style: FontStyle.textStyle(
+                              17, Colors.black54, FontWeight.w500),
+                        ),
                       ],
                     ),
                   )
@@ -96,7 +125,7 @@ class DialogWidget {
               child: Text(
                 'Oke',
                 style:
-                    FontStyle.textStyle(20, Colors.black54, FontWeight.w500),
+                    FontStyle.textStyle(20, Colors.black87, FontWeight.w500),
               ),
               onPressed: () {
                 Navigator.of(context).pop();

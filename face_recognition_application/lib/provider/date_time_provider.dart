@@ -12,7 +12,7 @@ class DateTimeProvider with ChangeNotifier {
   Timer? _timer;
 
   DateTimeProvider() {
-    _formattedTime = DateFormat("hh:mm:ss a").format(_now);
+    _formattedTime = DateFormat("HH:mm:ss").format(_now);
     _formattedDate =
         DateFormat("dd MMM yyyy").format(_now); // Year, month, and day
     _startTimer();
@@ -31,7 +31,7 @@ class DateTimeProvider with ChangeNotifier {
 
   void _updateTime() {
     _now = DateTime.now();
-    _formattedTime = DateFormat("hh:mm:ss a").format(_now);
+    _formattedTime = DateFormat("HH:mm:ss").format(_now);
     _formattedDate = DateFormat("dd MMM yyyy").format(_now);
     notifyListeners(); // Notify listeners about the change
   }

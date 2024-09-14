@@ -8,7 +8,7 @@ import os
 
 from app.model import attendance_model
 from database import engine, get_db
-from utils import manage_token, face_recognition, upload_photos, attendance_checker
+from utils import manage_token, face_recognition, upload_photos, attendance_management
 
 security = HTTPBearer()
 
@@ -41,7 +41,7 @@ async def attendace(
     
 
   
-  existing_attendances = attendance_checker.attendanceChecker(user_info["user_id"], db)
+  existing_attendances = attendance_management.attendanceChecker(user_info["user_id"], db)
 
   if existing_attendances >= 2:
         raise HTTPException(
@@ -62,6 +62,7 @@ async def attendace(
   attendace_status = None
 
   time = date_time.split(",")[0]
+  
   if action =="chekin" :
     if time <= chekin_time:
       attendace_status = attendance_model.StatusAttendance.on_time
@@ -106,3 +107,39 @@ async def attendace(
         }
   }
 
+
+@router.get("/get-attendance", summary="Get user by token") 
+async def verify_token(date: str, action: str, db:Annotated[Session, Depends(get_db)], credentials: HTTPAuthorizationCredentials = Depends(security)):
+
+  token = credentials.credentials
+  user_info = manage_token.verify_token(token)
+
+
+  if not user_info:
+      raise HTTPException(
+          status_code=status.HTTP_401_UNAUTHORIZED,
+          detail="Invalid token"
+      )
+
+  attendance_records = attendance_management.attendanceFilterByDateAndAction(user_id=user_info["user_id"], date=date, action=action, db=db)
+  
+  if not attendance_records:
+      raise HTTPException(
+          status_code=status.HTTP_404_NOT_FOUND,
+          detail="No attendance records found"
+      )
+  
+  return {
+        "status_code": status.HTTP_200_OK,
+        "message": "Attendance records retrieved successfully",
+        "data": [
+            {
+                "attendance_id": record.attendace_id,
+                "date_time": record.date_time,
+                "action": record.action,
+                "status": record.status,
+                # Include other relevant fields
+            }
+            for record in attendance_records
+        ]
+    }

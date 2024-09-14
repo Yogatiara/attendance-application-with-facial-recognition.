@@ -12,7 +12,6 @@ class AttendanceProvider with ChangeNotifier {
   AttendanceModel? _attendanceResult;
   ErrorModel? _errorResult;
   bool _isLoading = false;
-  bool _ignore = false;
 
   String? _error;
   String _action = "chekin";
@@ -42,7 +41,7 @@ class AttendanceProvider with ChangeNotifier {
     final ImagePicker picker = ImagePicker();
 
     _dateTime =
-        "${time.split(" ")[0].split(":").sublist(0, 2).join(":")},$date";
+        "${time.split(":").sublist(0, 2).join(":")},$date";
 
     try {
       final XFile? image = await picker.pickImage(source: ImageSource.camera);
