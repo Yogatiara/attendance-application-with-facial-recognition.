@@ -84,7 +84,7 @@ class DialogWidget {
                         ),
                         RichText(
                           text: TextSpan(
-                            text: 'Status: ',
+                            text: 'status: ',
                             style: const TextStyle(
                               fontSize: 15,
                               color: Colors.black54,
@@ -96,7 +96,7 @@ class DialogWidget {
                                 style: TextStyle(
                                   color: object.status == "on time"?Colors.green
                                   : object.status == "late"? Colors.red: Colors.black54,
-                                  fontWeight: FontWeight.w400,
+                                  fontWeight: FontWeight.w800,
                                 ),
                               ),
                             ],
@@ -106,7 +106,7 @@ class DialogWidget {
                           height: 15,
                         ),
                         Text(
-                          "**check in at ${(object.dateTime).split(",")[0]}",
+                          "**${object.action} at ${(object.dateTime).split(",")[0]}",
                           style: FontStyle.textStyle(
                               17, Colors.black54, FontWeight.w500),
                         ),

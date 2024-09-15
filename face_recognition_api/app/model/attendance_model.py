@@ -7,6 +7,7 @@ class StatusAttendance(enum.Enum):
     on_time = "on time"
     late = "late"
     early_leave = "early leave"
+    over_time = "over time"
 
 class AttendanceAction(enum.Enum):
     chekin = "chekin"

@@ -1,3 +1,4 @@
+import 'package:face_recognition_application/api/fetching/attandace_fetch.dart';
 import 'package:face_recognition_application/api/fetching/user_fetch.dart';
 import 'package:face_recognition_application/api/model/error_model.dart';
 import 'package:face_recognition_application/api/model/user_model.dart';
@@ -8,6 +9,7 @@ import 'package:face_recognition_application/utils/capitalize_each_word.dart';
 import 'package:face_recognition_application/utils/jump_to_login.dart';
 import 'package:face_recognition_application/widget/dialog_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -24,6 +26,9 @@ class AttendanceScreen extends StatefulWidget {
 class _AttendanceScreenState extends State<AttendanceScreen> {
   bool _isLoading = false;
   dynamic _userData;
+  DateTime _now = DateTime.now();
+  late AttendanceProvider _attendanceProvider;
+
 
   @override
   void initState() {
@@ -43,14 +48,20 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
     final token = await _getToken();
     if (token != null) {
-      var res = await User.getUser(token);
-      if (res is ErrorModel) {
-        if (res.statusCode == 401) {
+      var userData = await User.getUser(token);
+      if (userData is ErrorModel ) {
+        if (userData.statusCode == 401) {
           jumpToLogin(context);
         }
       }
+      var attendanceData = await Attendance.getAttendanceByDateAndAction(
+          DateFormat("dd MMM yyyy").format(_now),"", token);
+      _attendanceProvider = Provider.of<AttendanceProvider>(context, listen: false);
+      _attendanceProvider.updateAttendanceTimes(attendanceData);
+
+
       setState(() {
-        _userData = res;
+        _userData = userData;
         _isLoading = false;
       });
     } else {
@@ -179,7 +190,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           FontStyle.buildText(
                               "Check in", screenWidth / 20, Colors.white),
                           FontStyle.buildText(
-                              "--/--", screenWidth / 20, Colors.white)
+                              _attendanceProvider.chekinTime ??
+                              attendanceProvider.chekinTime ?? "--/--", screenWidth / 20, Colors.white)
                         ],
                       )),
                   Expanded(
@@ -189,7 +201,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           FontStyle.buildText(
                               "Check out", screenWidth / 20, Colors.white),
                           FontStyle.buildText(
-                              "--/--", screenWidth / 20, Colors.white)
+                              _attendanceProvider.chekoutTime ??
+                                  attendanceProvider.chekoutTime ?? "--/--", screenWidth / 20, Colors.white)
                         ],
                       ))
                 ],
@@ -363,7 +376,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     height: 250,
                   ),
 
-                 const SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
 
                   Material(
                     shape: const CircleBorder(),

@@ -1,12 +1,12 @@
 from fastapi import APIRouter, File, HTTPException, Depends, UploadFile, status, Form
-from typing import Annotated
+from typing import Annotated, Optional
 from sqlalchemy.orm import Session
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import FileResponse
 import os
 
 
-from app.model import attendance_model
+from app.model import attendance_model, user_model
 from database import engine, get_db
 from utils import manage_token, face_recognition, upload_photos, attendance_management
 
@@ -15,6 +15,8 @@ security = HTTPBearer()
 router = APIRouter()
 
 attendance_model.base.metadata.create_all(bind=engine)
+user_model.base.metadata.create_all(bind=engine)
+
 
 chekin_time = "07:30"
 chekout_time = "15:30"
@@ -41,13 +43,16 @@ async def attendace(
     
 
   
-  existing_attendances = attendance_management.attendanceChecker(user_info["user_id"], db)
+  existing_attendances = attendance_management.attendanceChecker(user_info["user_id"], current_date=date_time.split(",")[1] , db=db)
 
   if existing_attendances >= 2:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="You can only perform attendance twice per day"
         )
+  
+  if existing_attendances == 1:
+     action = "chekout"
 
   contents = await target_face_image.read()
   succed = face_recognition.findSimilarity(contents, nim= user_info["nim"])
@@ -56,21 +61,28 @@ async def attendace(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Your face is unknown"
     )
-  
-  file_path = upload_photos.uploadTargetPhotos(target_face_image, contents, user_info["username"], user_info["nim"], action )
+  existing_user = db.query(user_model.User).filter(user_model.User.user_id == user_info["user_id"]).first()
+
+  file_path = upload_photos.uploadTargetPhotos(target_face_image, contents, existing_user.user_name, user_info["nim"], action )
   
   attendace_status = None
 
+
+  print(action)
   time = date_time.split(",")[0]
-  
+
   if action =="chekin" :
     if time <= chekin_time:
       attendace_status = attendance_model.StatusAttendance.on_time
     elif time > chekin_time:
       attendace_status = attendance_model.StatusAttendance.late
   elif action == "chekout":
+    print("jalan");
     if time < chekout_time:
       attendace_status = attendance_model.StatusAttendance.early_leave
+    if time > chekout_time:
+      attendace_status = attendance_model.StatusAttendance.over_time
+
 
   db_attendance = attendance_model.Attendance(
     action = action, 
@@ -97,7 +109,7 @@ async def attendace(
         "data": {
             "attendance_id": db_attendance.attendace_id,  
             "action": db_attendance.action,
-            "user_name": user_info["username"],
+            "user_name": existing_user.user_name,
             "nim": user_info["nim"],
             "status": db_attendance.status,
             "target_face_image": db_attendance.target_face_image,
@@ -109,7 +121,12 @@ async def attendace(
 
 
 @router.get("/get-attendance", summary="Get attendance by date and action") 
-async def verify_token(date: str, action: str, db:Annotated[Session, Depends(get_db)], credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def verify_token(
+  db: Annotated[Session, Depends(get_db)],
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    date: Optional[str] = None,
+    action: Optional[str] = None
+):
 
   token = credentials.credentials
   user_info = manage_token.verify_token(token)
@@ -122,12 +139,6 @@ async def verify_token(date: str, action: str, db:Annotated[Session, Depends(get
       )
 
   attendance_records = attendance_management.attendanceFilterByDateAndAction(user_id=user_info["user_id"], date=date, action=action, db=db)
-  
-  if not attendance_records:
-      raise HTTPException(
-          status_code=status.HTTP_404_NOT_FOUND,
-          detail="No attendance records found"
-      )
   
   return {
         "status_code": status.HTTP_200_OK,

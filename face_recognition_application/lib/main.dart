@@ -1,8 +1,10 @@
 import 'package:face_recognition_application/api/fetching/attandace_fetch.dart';
+import 'package:face_recognition_application/provider/attendance_provider.dart';
 import 'package:face_recognition_application/screens/login_screen.dart';
 import 'package:face_recognition_application/utils/navigation.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() async {
@@ -14,7 +16,13 @@ void main() async {
   final authToken = prefs.getString('token');
   final initialRoute = authToken != null ? '/attendance' : '/login';
 
-  runApp(MainApp(initialRoute: initialRoute));
+  runApp(
+      MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (_) => AttendanceProvider()),
+          ],
+      child: MainApp(initialRoute: initialRoute),
+  ));
 }
 
 class MainApp extends StatelessWidget {

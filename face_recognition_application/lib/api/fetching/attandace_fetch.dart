@@ -10,7 +10,7 @@ abstract class Attendance {
     await dotenv.load(fileName: ".env");
   }
 
-  static Future<Object?> attendance(String action, File targetFaceImage,
+  static Future<dynamic> attendance(String action, File targetFaceImage,
       String dateTime, String token) async {
     try {
       var formData = FormData.fromMap({
@@ -31,12 +31,11 @@ abstract class Attendance {
       );
 
       if (res.statusCode == 201) {
-        print("berhasil 1");
         return AttendanceModel(
             message: res.data["message"],
             userName: res.data["data"]["user_name"],
             nim: res.data["data"]["nim"],
-            action: action,
+            action: res.data["data"]["action"],
             status: res.data["data"]["status"],
             targetFaceImage: targetFaceImage,
             dateTime: dateTime);
@@ -58,4 +57,52 @@ abstract class Attendance {
 
     return null;
   }
+
+  static Future<dynamic> getAttendanceByDateAndAction(String date, String action, String token) async {
+    try {
+      var res;
+
+      if (action.isEmpty) {
+        res = await Dio().get(
+          "${dotenv.env["API_URL"]}/user/get-attendance?date=$date",
+          options: Options(
+            headers: {
+              'Authorization': 'Bearer $token',
+            },
+          ),
+        );
+      } else {
+        res = await Dio().get(
+          "${dotenv.env["API_URL"]}/user/get-attendance?date=$date&action=$action",
+          options: Options(
+            headers: {
+              'Authorization': 'Bearer $token',
+            },
+          ),
+        );
+      }
+
+      if (res.statusCode == 200) {
+        List<dynamic> data = res.data['data'];
+        return data.map((item) =>
+            AttendanceModel.fromJson(item)).toList();
+      } else {
+        return ErrorModel(statusCode: res.statusCode, detail: "Unexpected error occurred");
+      }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        if (e.response?.statusCode != 401 && e.response?.statusCode != 403) {
+          return ErrorModel(statusCode: 500, detail: "Server error");
+        } else {
+          return ErrorModel(
+              statusCode: e.response?.statusCode,
+              detail: e.response?.data["detail"] ?? "Unknown error"
+          );
+        }
+      } else {
+        return ErrorModel(statusCode: 500, detail: "Network error or no response");
+      }
+    }
+  }
+
 }
