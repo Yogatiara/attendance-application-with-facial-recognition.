@@ -34,10 +34,22 @@ class AttendanceProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  set errorResult(ErrorModel? content) {
-    _errorResult = content;
+  set photoFile(File? file) {
+    _photoFile = file;
     notifyListeners();
   }
+
+  set errorResult(ErrorModel? errorModel) {
+    _errorResult = errorModel;
+    notifyListeners();
+  }
+
+  set attendanceResult(AttendanceModel? attendanceModel) {
+    _attendanceResult = attendanceModel;
+    notifyListeners();
+  }
+
+
 
   Future<void> attendance(String time, String date) async {
     final prefs = await SharedPreferences.getInstance();

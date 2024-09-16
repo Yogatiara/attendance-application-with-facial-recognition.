@@ -24,15 +24,18 @@ class UnauthorizedScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset(
-                'assets/images/Unauthorized.png',
+                'assets/images/unauthorized.png',
                 width: 350,
                 height: 350,
               ),
-              Text(
-                textAlign: TextAlign.center,
-                "Your session has expired, please log in again",
-                style: FontStyle.textStyle(
-                    35, Colors.redAccent, FontWeight.w600),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal:46),
+                child: Text(
+                  textAlign: TextAlign.center,
+                  "Your session has expired, please log in again",
+                  style: FontStyle.textStyle(
+                      30, Colors.redAccent, FontWeight.w600),
+                ),
               ),
             ],
           ),

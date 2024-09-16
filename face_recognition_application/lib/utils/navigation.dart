@@ -36,7 +36,8 @@ class _NavigationState extends State<Navigation> with WidgetsBindingObserver {
     final getToken = await _getToken();
     final res = await Auth.verifyToken(getToken!);
     if (res?.statusCode == 401) {
-      jumpToLogin(context);
+      Navigator.pushReplacementNamed(context, '/unauthorized');
+
     }
   }
 

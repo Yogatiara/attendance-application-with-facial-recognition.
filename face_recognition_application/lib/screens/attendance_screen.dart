@@ -30,8 +30,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   final DateTime _now = DateTime.now();
   late AttendanceProvider _attendanceProvider;
 
-
-
   @override
   void initState() {
     super.initState();
@@ -79,7 +77,9 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
   }
 
   Future<void> _refreshData() async {
-    await _fetchUserData();
+     _fetchUserData();
+
+
   }
 
   _showDialog(BuildContext context, dynamic object, bool error) {
@@ -106,7 +106,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
         builder:
             (BuildContext context, AttendanceProvider attendanceProvider, _) =>
             RefreshIndicator(
-              onRefresh: attendanceProvider.isLoading ? () async {} : _refreshData,
+              onRefresh: attendanceProvider.isLoading ? () async {} : () async {
+                attendanceProvider.errorResult = null;
+                attendanceProvider.attendanceResult = null;
+                await _refreshData();
+
+              },
               color: Colors.redAccent,
               child: _isLoading
                   ? Center(
@@ -127,7 +132,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
   Widget _buildContent(BuildContext context, double screenWidth,
       Size screenSize, AttendanceProvider attendanceProvider) {
-    if (_userData is UserModel || _attendanceData is List<AttendanceModel>) {
+    if (_userData is UserModel && _attendanceData is List<AttendanceModel>) {
       final data = _userData as UserModel;
 
       return ListView(
@@ -171,19 +176,21 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             child: Consumer<AttendanceProvider>(builder: (BuildContext context,
                 AttendanceProvider attendanceProvider, _) {
 
-              if (attendanceProvider.errorResult != null) {
+              if (attendanceProvider.errorResult != null
+                  ) {
                 if (attendanceProvider.errorResult?.statusCode == 500) {
                   return _showErrorInformation(screenSize.height,
                       attendanceProvider.errorResult!.detail);
                 }
 
-                if (!attendanceProvider.isLoading) {
+                if (!attendanceProvider.isLoading && attendanceProvider.errorResult?.statusCode == 403) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     _showDialog(context, attendanceProvider.errorResult, true);
                   });
                 }
-              } else if (attendanceProvider.attendanceResult != null) {
-                if (!attendanceProvider.isLoading) {
+              } else if (attendanceProvider.attendanceResult != null
+                ) {
+                if (!attendanceProvider.isLoading ) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     _showDialog(
                         context, attendanceProvider.attendanceResult, false);
@@ -325,6 +332,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                             .toString(),
                                         dateTimeProvider.formattedDate
                                             .toString());
+
+                                    _attendanceProvider.attendance(dateTimeProvider.formattedTime
+                                        .toString(), dateTimeProvider.formattedDate
+                                        .toString());
+
                                   },
                                   child: const Icon(
                                     Icons.camera_alt_outlined,
@@ -339,7 +351,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           )
         ],
       );
-    } else if (_userData is ErrorModel || _attendanceData is ErrorModel) {
+    } else if (_userData is ErrorModel && _attendanceData is ErrorModel) {
       final error = _userData as ErrorModel;
       final errorAttendance = _attendanceData as ErrorModel;
 
