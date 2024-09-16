@@ -149,7 +149,40 @@ async def verify_token(
                 "date_time": record.date_time,
                 "action": record.action,
                 "status": record.status,
-                # Include other relevant fields
+            }
+            for record in attendance_records
+        ]
+    }
+
+@router.get("/get-all-attendance/", summary="Get all attendance data") 
+async def verify_token(
+  db: Annotated[Session, Depends(get_db)],
+    credentials: HTTPAuthorizationCredentials = Depends(security),
+    date: Optional[str] = None,
+    action: Optional[str] = None
+):
+
+  token = credentials.credentials
+  user_info = manage_token.verify_token(token)
+
+
+  if not user_info:
+      raise HTTPException(
+          status_code=status.HTTP_401_UNAUTHORIZED,
+          detail="Invalid token"
+      )
+
+  attendance_records = attendance_management.attendanceFilterByDateAndAction(user_id=user_info["user_id"], date=date, action=action, db=db)
+  
+  return {
+        "status_code": status.HTTP_200_OK,
+        "message": "Attendance records retrieved successfully",
+        "data": [
+            {
+                "attendance_id": record.attendace_id,
+                "date_time": record.date_time,
+                "action": record.action,
+                "status": record.status,
             }
             for record in attendance_records
         ]

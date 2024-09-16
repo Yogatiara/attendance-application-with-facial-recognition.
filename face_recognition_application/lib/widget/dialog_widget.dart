@@ -39,7 +39,7 @@ class DialogWidget {
                               15, Colors.black45, FontWeight.w400),
                         )
                       : Text(
-                    "Note: Please Take attendance tomorrow  ",
+                    "Note: Please take attendance tomorrow  ",
                     style: FontStyle.textStyle(
                         15, Colors.black45, FontWeight.w400),
                   )

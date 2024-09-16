@@ -1,12 +1,12 @@
 import 'package:face_recognition_application/api/fetching/attandace_fetch.dart';
 import 'package:face_recognition_application/api/fetching/user_fetch.dart';
+import 'package:face_recognition_application/api/model/attendance_model.dart';
 import 'package:face_recognition_application/api/model/error_model.dart';
 import 'package:face_recognition_application/api/model/user_model.dart';
 import 'package:face_recognition_application/font/font_style.dart';
 import 'package:face_recognition_application/provider/attendance_provider.dart';
 import 'package:face_recognition_application/provider/date_time_provider.dart';
 import 'package:face_recognition_application/utils/capitalize_each_word.dart';
-import 'package:face_recognition_application/utils/jump_to_login.dart';
 import 'package:face_recognition_application/widget/dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -26,8 +26,10 @@ class AttendanceScreen extends StatefulWidget {
 class _AttendanceScreenState extends State<AttendanceScreen> {
   bool _isLoading = false;
   dynamic _userData;
-  DateTime _now = DateTime.now();
+  dynamic _attendanceData;
+  final DateTime _now = DateTime.now();
   late AttendanceProvider _attendanceProvider;
+
 
 
   @override
@@ -49,19 +51,24 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     final token = await _getToken();
     if (token != null) {
       var userData = await User.getUser(token);
-      if (userData is ErrorModel ) {
-        if (userData.statusCode == 401) {
-          jumpToLogin(context);
-        }
-      }
+
       var attendanceData = await Attendance.getAttendanceByDateAndAction(
           DateFormat("dd MMM yyyy").format(_now),"", token);
-      _attendanceProvider = Provider.of<AttendanceProvider>(context, listen: false);
-      _attendanceProvider.updateAttendanceTimes(attendanceData);
+
+      if (userData is ErrorModel && attendanceData is ErrorModel ) {
+        if (userData.statusCode == 401 || attendanceData.statusCode ==401) {
+          Navigator.pushReplacementNamed(context, '/unauthorized');
+
+        }
+      } else if (attendanceData is List<AttendanceModel>) {
+        _attendanceProvider = Provider.of<AttendanceProvider>(context, listen: false);
+        _attendanceProvider.updateAttendanceTimes(attendanceData);
+      }
 
 
       setState(() {
         _userData = userData;
+        _attendanceData = attendanceData;
         _isLoading = false;
       });
     } else {
@@ -120,7 +127,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
   Widget _buildContent(BuildContext context, double screenWidth,
       Size screenSize, AttendanceProvider attendanceProvider) {
-    if (_userData is UserModel) {
+    if (_userData is UserModel || _attendanceData is List<AttendanceModel>) {
       final data = _userData as UserModel;
 
       return ListView(
@@ -163,11 +170,13 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                 borderRadius: const BorderRadius.all(Radius.circular(20))),
             child: Consumer<AttendanceProvider>(builder: (BuildContext context,
                 AttendanceProvider attendanceProvider, _) {
+
               if (attendanceProvider.errorResult != null) {
                 if (attendanceProvider.errorResult?.statusCode == 500) {
                   return _showErrorInformation(screenSize.height,
                       attendanceProvider.errorResult!.detail);
                 }
+
                 if (!attendanceProvider.isLoading) {
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     _showDialog(context, attendanceProvider.errorResult, true);
@@ -330,9 +339,11 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           )
         ],
       );
-    } else if (_userData is ErrorModel) {
+    } else if (_userData is ErrorModel || _attendanceData is ErrorModel) {
       final error = _userData as ErrorModel;
-      if (error.statusCode == 500) {
+      final errorAttendance = _attendanceData as ErrorModel;
+
+      if (error.statusCode == 500 || errorAttendance.statusCode == 500) {
         return ListView(
           physics: const AlwaysScrollableScrollPhysics(),
           children: [
@@ -352,6 +363,28 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                       style: FontStyle.textStyle(
                           40, Colors.redAccent, FontWeight.w800),
                     ),
+                    const SizedBox(height: 20,),
+                    Material(
+                      shape: const CircleBorder(),
+                      elevation: 4.0,
+                      child: TextButton(
+                        style: ButtonStyle(
+                          shape: MaterialStateProperty.all(
+                            const CircleBorder(),
+                          ),
+                          backgroundColor: MaterialStateProperty.all(Colors.white),
+                          shadowColor: MaterialStateProperty.all(Colors.black.withOpacity(0.5)), // Jika ingin menambahkan warna bayangan
+                        ),
+                        onPressed: () {
+                          _refreshData();
+                        },
+                        child: const Icon(
+                          Icons.refresh_outlined,
+                          size: 50,
+                          color: Colors.redAccent,
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),

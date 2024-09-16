@@ -1,6 +1,7 @@
 import 'package:face_recognition_application/api/fetching/attandace_fetch.dart';
 import 'package:face_recognition_application/provider/attendance_provider.dart';
 import 'package:face_recognition_application/screens/login_screen.dart';
+import 'package:face_recognition_application/screens/unauthorized_screen.dart';
 import 'package:face_recognition_application/utils/navigation.dart';
 
 import 'package:flutter/material.dart';
@@ -38,6 +39,7 @@ class MainApp extends StatelessWidget {
       routes: {
         '/login': (context) => const LoginScreen(),
         '/attendance': (context) => const Navigation(),
+        '/unauthorized' : (context) => const UnauthorizedScreen(),
       },
     );
   }

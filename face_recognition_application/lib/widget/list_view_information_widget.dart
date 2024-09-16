@@ -3,10 +3,8 @@ import 'package:flutter/material.dart';
 
 
 class ListViewInformation {
-  static listViewErrorBuilder(double screenSize, dynamic object ) {
-    return ListView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      children: [
+  static listViewErrorBuilder(screenSize, dynamic object ) {
+    return
         SizedBox(
           height: screenSize / 1.15,
           child: Center(
@@ -26,8 +24,7 @@ class ListViewInformation {
               ],
             ),
           ),
-        ),
-      ],
-    );
+        );
+
   }
 }

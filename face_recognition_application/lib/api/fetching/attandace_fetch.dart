@@ -60,7 +60,7 @@ abstract class Attendance {
 
   static Future<dynamic> getAttendanceByDateAndAction(String date, String action, String token) async {
     try {
-      var res;
+      Response res;
 
       if (action.isEmpty) {
         res = await Dio().get(

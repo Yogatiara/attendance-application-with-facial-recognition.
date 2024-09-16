@@ -11,7 +11,7 @@ load_dotenv(dotenv_path=env_path)
 SECRET_KEY = os.getenv('SECRET_KEY')
 ALGORITHM = os.getenv('ALGORITHM')
 
-ACCESS_TOKEN_EXPIRE = 60
+ACCESS_TOKEN_EXPIRE = 2
 
 def create_access_token(user_id: int, nim :int):
   encode = {"user_id": user_id,  "nim": nim}
