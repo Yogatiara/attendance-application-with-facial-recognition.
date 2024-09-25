@@ -53,16 +53,15 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
       var attendanceData = await Attendance.getAttendanceByDateAndAction(
           DateFormat("dd MMM yyyy").format(_now),"", token);
 
-      if (userData is ErrorModel && attendanceData is ErrorModel ) {
+      if (attendanceData is List<AttendanceModel>) {
+        _attendanceProvider = Provider.of<AttendanceProvider>(context, listen: false);
+        _attendanceProvider.updateAttendanceTimes(attendanceData);
+      } else if (userData is ErrorModel && attendanceData is ErrorModel ) {
         if (userData.statusCode == 401 || attendanceData.statusCode ==401) {
           Navigator.pushReplacementNamed(context, '/unauthorized');
 
         }
-      } else if (attendanceData is List<AttendanceModel>) {
-        _attendanceProvider = Provider.of<AttendanceProvider>(context, listen: false);
-        _attendanceProvider.updateAttendanceTimes(attendanceData);
       }
-
 
       setState(() {
         _userData = userData;
@@ -107,8 +106,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             (BuildContext context, AttendanceProvider attendanceProvider, _) =>
             RefreshIndicator(
               onRefresh: attendanceProvider.isLoading ? () async {} : () async {
-                attendanceProvider.errorResult = null;
-                attendanceProvider.attendanceResult = null;
+                // attendanceProvider.errorResult = null;
+                // attendanceProvider.attendanceResult = null;
                 await _refreshData();
 
               },
@@ -183,7 +182,12 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                       attendanceProvider.errorResult!.detail);
                 }
 
-                if (!attendanceProvider.isLoading && attendanceProvider.errorResult?.statusCode == 403) {
+                if (!attendanceProvider.isLoading) {
+
+                  if ( attendanceProvider.errorResult?.statusCode == 400 ||
+                      attendanceProvider.errorResult?.statusCode == 403 ) {
+
+                  }
                   WidgetsBinding.instance.addPostFrameCallback((_) {
                     _showDialog(context, attendanceProvider.errorResult, true);
                   });
@@ -332,10 +336,6 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                             .toString(),
                                         dateTimeProvider.formattedDate
                                             .toString());
-
-                                    _attendanceProvider.attendance(dateTimeProvider.formattedTime
-                                        .toString(), dateTimeProvider.formattedDate
-                                        .toString());
 
                                   },
                                   child: const Icon(

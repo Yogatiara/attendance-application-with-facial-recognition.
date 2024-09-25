@@ -1,16 +1,37 @@
 import 'package:face_recognition_application/utils/capitalize_each_word.dart';
 import 'package:flutter/material.dart';
 import 'package:face_recognition_application/font/font_style.dart';
+import 'package:flutter/rendering.dart';
 
 class DialogWidget {
   static dialogBuilder(BuildContext context, dynamic object, error) {
     return showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+
+
+
+          ),
           backgroundColor: Colors.white,
-          content: SingleChildScrollView(
-            child: Container(
+          // actions: [
+          //   TextButton(
+          //     style: TextButton.styleFrom(
+          //       textStyle: Theme.of(context).textTheme.labelLarge,
+          //     ),
+          //     child: Text(
+          //       'Oke',
+          //       style:
+          //           FontStyle.textStyle(20, Colors.black87, FontWeight.w500),
+          //     ),
+          //     onPressed: () {
+          //       Navigator.of(context).pop();
+          //     },
+          //   ),
+          // ],
+        child: SingleChildScrollView(
               padding:  EdgeInsets.all(error ? 8 :10),
               child: error? Column(
                 children: [
@@ -44,94 +65,160 @@ class DialogWidget {
                         15, Colors.black45, FontWeight.w400),
                   )
                 ],
-              ) : Column(
+              ) : Stack(
+                clipBehavior: Clip.none,
+                alignment: Alignment.topCenter,
                 children: [
-                  Image.asset(
-                    "assets/icons/success.png",
-                    height: 150,
-                    width: 150,
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  Text(
-                    textAlign: TextAlign.center,
-                    "${object.message}",
-                    style: FontStyle.textStyle(20, Colors.green, FontWeight.w500),
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
                   Container(
-                    alignment: Alignment.centerLeft,
+                    margin: EdgeInsets.only(top: 100),
+                    padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
+                    alignment: Alignment.center,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Name : ${capitalizeEachWord(object.userName)}",
-                          style: FontStyle.textStyle(
-                              15, Colors.black54, FontWeight.w400),
-                        ),
-                        Text(
-                          "NIM : ${object.nim}",
-                          style: FontStyle.textStyle(
-                              15, Colors.black54, FontWeight.w400),
-                        ),
-                        Text(
-                          "action : ${object.action}",
-                          style: FontStyle.textStyle(
-                              15, Colors.black54, FontWeight.w400),
-                        ),
-                        RichText(
-                          text: TextSpan(
-                            text: 'status: ',
-                            style: const TextStyle(
-                              fontSize: 15,
-                              color: Colors.black54,
-                              fontWeight: FontWeight.w400,
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                            decoration: const BoxDecoration(
+                            border: Border(
+                            bottom: BorderSide(color: Colors.black26),
                             ),
-                            children: <TextSpan>[
-                              TextSpan(
-                                text: object.status,
-                                style: TextStyle(
-                                  color: object.status == "on time"?Colors.green
-                                  : object.status == "late"? Colors.red: Colors.black54,
-                                  fontWeight: FontWeight.w800,
-                                ),
+                        ),
+                          child: Row(
+                            mainAxisAlignment:MainAxisAlignment.spaceBetween ,
+                            children: [
+                              Text(
+                                "Name:",
+                                style: FontStyle.textStyle(
+                                    17, Colors.black54, FontWeight.w500),
+                              ),
+
+                              Text(
+                                capitalizeEachWord(object.userName),
+                                style: FontStyle.textStyle(
+                                    17, Colors.black54, FontWeight.w400),
                               ),
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          height: 15,
+                        const SizedBox(height: 10,),
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: Colors.black26),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment:MainAxisAlignment.spaceBetween ,
+                            children: [
+                              Text(
+                                "NIM:",
+                                style: FontStyle.textStyle(
+                                    17, Colors.black54, FontWeight.w500),
+                              ),
+
+                              Text(
+                                "${object.nim}",
+                                style: FontStyle.textStyle(
+                                    17, Colors.black54, FontWeight.w400),
+                              ),
+                            ],
+                          ),
                         ),
+                        const SizedBox(height: 10,),
+
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: Colors.black26),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment:MainAxisAlignment.spaceBetween ,
+                            children: [
+                              Text(
+                                "Action:",
+                                style: FontStyle.textStyle(
+                                    17, Colors.black54, FontWeight.w500),
+                              ),
+
+                              Text(
+                                "${object.action}",
+                                style: FontStyle.textStyle(
+                                    17, Colors.black54, FontWeight.w400),
+                              ),
+                            ],
+                          ),
+                        ),const SizedBox(height: 10,),
+
+                        Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(color: Colors.black26),
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisAlignment:MainAxisAlignment.spaceBetween ,
+                            children: [
+                              Text(
+                                "Status:",
+                                style: FontStyle.textStyle(
+                                    17, Colors.black54, FontWeight.w500),
+                              ),
+
+                              Text(
+                                "${object.status}",
+                                style: FontStyle.textStyle(
+                                    17, object.status == "on time"?Colors.green
+                                    : object.status == "late"? Colors.red: Colors.black54, FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        const SizedBox(height: 20,),
                         Text(
                           "**${object.action} at ${(object.dateTime).split(",")[0]}",
                           style: FontStyle.textStyle(
-                              17, Colors.black54, FontWeight.w500),
+                              17, Colors.redAccent, FontWeight.w600),
                         ),
+                        const SizedBox(height: 30,),
+
+
+                        Center(
+                          child: SizedBox(
+                            width: double.maxFinite,
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.redAccent
+
+                                ) ,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  },
+                                child:Text("OK",
+                              style: FontStyle.textStyle(
+                                  17, Colors.white, FontWeight.w600),
+                            ) ),
+                          ),
+                        )
                       ],
                     ),
+                  ),
+                  Positioned(
+                      top: -80,
+                      child: Image.asset(
+                          "assets/icons/success.png",
+                          height: 150,
+                          width: 150,
+                      ),
                   )
                 ],
               ),
             ),
-          ),
-          actions: [
-            TextButton(
-              style: TextButton.styleFrom(
-                textStyle: Theme.of(context).textTheme.labelLarge,
-              ),
-              child: Text(
-                'Oke',
-                style:
-                    FontStyle.textStyle(20, Colors.black87, FontWeight.w500),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
+
         );
       },
     );

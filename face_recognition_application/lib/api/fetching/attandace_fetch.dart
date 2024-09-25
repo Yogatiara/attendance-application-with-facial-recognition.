@@ -5,7 +5,7 @@ import 'package:face_recognition_application/api/model/attendance_model.dart';
 import 'package:face_recognition_application/api/model/error_model.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-abstract class Attendance {
+class Attendance {
   static Future<void> initialize() async {
     await dotenv.load(fileName: ".env");
   }
