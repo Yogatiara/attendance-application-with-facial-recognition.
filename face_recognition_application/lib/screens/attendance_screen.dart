@@ -10,6 +10,7 @@ import 'package:face_recognition_application/utils/capitalize_each_word.dart';
 import 'package:face_recognition_application/widget/dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -106,8 +107,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             (BuildContext context, AttendanceProvider attendanceProvider, _) =>
             RefreshIndicator(
               onRefresh: attendanceProvider.isLoading ? () async {} : () async {
-                // attendanceProvider.errorResult = null;
-                // attendanceProvider.attendanceResult = null;
+                attendanceProvider.errorResult = null;
+                attendanceProvider.attendanceResult = null;
                 await _refreshData();
 
               },
@@ -281,14 +282,13 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                     builder: (BuildContext context,
                         AttendanceProvider attendanceProvider, _) {
                       if (attendanceProvider.isLoading) {
-                        return SizedBox(
+                        return Container(
+                          padding: const EdgeInsets.all(40),
                           width: 300,
                           height: 320,
-                          child: Center(
-                            child: LoadingAnimationWidget.staggeredDotsWave(
-                              color: Colors.red,
-                              size: 100,
-                            ),
+                          child: Lottie.asset(
+                            'assets/images/face_recognition.json',
+
                           ),
                         );
                       }
@@ -385,7 +385,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                             const CircleBorder(),
                           ),
                           backgroundColor: MaterialStateProperty.all(Colors.white),
-                          shadowColor: MaterialStateProperty.all(Colors.black.withOpacity(0.5)), // Jika ingin menambahkan warna bayangan
+                          shadowColor: MaterialStateProperty.all(Colors.black.withOpacity(0.5)),
                         ),
                         onPressed: () {
                           _refreshData();

@@ -29,7 +29,7 @@ class UnauthorizedScreen extends StatelessWidget {
                 height: 350,
               ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal:46),
+                padding: const EdgeInsets.symmetric(horizontal:46),
                 child: Text(
                   textAlign: TextAlign.center,
                   "Your session has expired, please log in again",

@@ -1,7 +1,7 @@
 import 'package:face_recognition_application/utils/capitalize_each_word.dart';
+import 'package:face_recognition_application/widget/button.dart';
 import 'package:flutter/material.dart';
 import 'package:face_recognition_application/font/font_style.dart';
-import 'package:flutter/rendering.dart';
 
 class DialogWidget {
   static dialogBuilder(BuildContext context, dynamic object, error) {
@@ -10,30 +10,13 @@ class DialogWidget {
       builder: (BuildContext context) {
         return Dialog(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-
-
-
+            borderRadius: BorderRadius.circular(20),
           ),
           backgroundColor: Colors.white,
-          // actions: [
-          //   TextButton(
-          //     style: TextButton.styleFrom(
-          //       textStyle: Theme.of(context).textTheme.labelLarge,
-          //     ),
-          //     child: Text(
-          //       'Oke',
-          //       style:
-          //           FontStyle.textStyle(20, Colors.black87, FontWeight.w500),
-          //     ),
-          //     onPressed: () {
-          //       Navigator.of(context).pop();
-          //     },
-          //   ),
-          // ],
         child: SingleChildScrollView(
-              padding:  EdgeInsets.all(error ? 8 :10),
+              padding:  EdgeInsets.all(error ? 40 :10),
               child: error? Column(
+
                 children: [
                   Image.asset(
                    object.statusCode == 400?  "assets/icons/face-unknown.png":
@@ -63,14 +46,22 @@ class DialogWidget {
                     "Note: Please take attendance tomorrow  ",
                     style: FontStyle.textStyle(
                         15, Colors.black45, FontWeight.w400),
+                  ),
+                  const SizedBox(height: 40,),
+                  SizedBox(
+
+                    width: double.maxFinite,
+                    child: Button.okButton(context) ,
                   )
+
+
                 ],
               ) : Stack(
                 clipBehavior: Clip.none,
                 alignment: Alignment.topCenter,
                 children: [
                   Container(
-                    margin: EdgeInsets.only(top: 100),
+                    margin: const EdgeInsets.only(top: 100),
                     padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
                     alignment: Alignment.center,
                     child: Column(
@@ -190,18 +181,7 @@ class DialogWidget {
                         Center(
                           child: SizedBox(
                             width: double.maxFinite,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.redAccent
-
-                                ) ,
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  },
-                                child:Text("OK",
-                              style: FontStyle.textStyle(
-                                  17, Colors.white, FontWeight.w600),
-                            ) ),
+                            child: Button.okButton(context),
                           ),
                         )
                       ],

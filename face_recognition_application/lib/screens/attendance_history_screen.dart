@@ -23,7 +23,7 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
           )
         ),
         Container(
-            child: Row(
+            child: const Row(
 
             ),
         )
