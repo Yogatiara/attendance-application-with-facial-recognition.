@@ -63,7 +63,7 @@ class _LoginScreenState extends State<LoginScreen> with WidgetsBindingObserver {
         SnackBar(
           content: Text(res.message),
           backgroundColor:
-              Colors.green, // Menambahkan warna merah pada SnackBar
+              Colors.green,
         ),
       );
       setState(() {

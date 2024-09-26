@@ -1,9 +1,9 @@
 import 'dart:io';
-// import 'package:face_recognition_application/api/fetching/recognition_fetch.dart';
 import 'package:face_recognition_application/api/fetching/attandace_fetch.dart';
 import 'package:face_recognition_application/api/model/attendance_model.dart';
 import 'package:face_recognition_application/api/model/error_model.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,13 +11,9 @@ class AttendanceProvider with ChangeNotifier {
   File? _photoFile;
   AttendanceModel? _attendanceResult;
   ErrorModel? _errorResult;
-  bool _isLoading = false;
-  String? _error;
+  bool _isLoading = false, _locationDeniedForever =false;
   String _action = "chekin";
-  String? _dateTime;
-  String? _chekinTime;
-  String? _chekoutTime;
-
+  String? _lat, _long, _chekinTime,_chekoutTime, _dateTime, _error;
 
   File? get photoFile => _photoFile;
   AttendanceModel? get attendanceResult => _attendanceResult;
@@ -27,6 +23,7 @@ class AttendanceProvider with ChangeNotifier {
   String? get error => _error;
   String? get chekinTime => _chekinTime;
   String? get chekoutTime => _chekoutTime;
+  bool? get locationDeniedForever => _locationDeniedForever;
 
 
   set action(String action) {
@@ -49,6 +46,37 @@ class AttendanceProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  Future <Position> getCurrentLocation() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+
+    if (!serviceEnabled) return Future.error("Location services is disabled");
+
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        print("denied");
+
+        return Future.error('Location permissions are denied');
+      }
+
+      if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
+        _locationDeniedForever = false;
+        return Future.error('Location permissions are available');
+      }
+
+      if (permission == LocationPermission.deniedForever) {
+        _locationDeniedForever = true;
+        print("denied forever");
+        return Future.error(
+            'Location permissions are permanently denied, we cannot request permissions.');
+      }
+    }
+    return await Geolocator.getCurrentPosition();
+
+  }
+
+
 
 
   Future<void> attendance(String time, String date) async {
@@ -59,9 +87,14 @@ class AttendanceProvider with ChangeNotifier {
     _dateTime =
         "${time.split(":").sublist(0, 2).join(":")},$date";
 
+
     try {
+      await getCurrentLocation();
+
       final XFile? image = await picker.pickImage(source: ImageSource.camera);
       final LostDataResponse response = await picker.retrieveLostData();
+      // final position = getCurrentLocation();
+
 
       if (response.isEmpty) {
         if (image != null) {

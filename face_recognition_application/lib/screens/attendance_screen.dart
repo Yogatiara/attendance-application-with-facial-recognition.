@@ -37,6 +37,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     _fetchUserData();
   }
 
+
+
   Future<String?> _getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
@@ -90,6 +92,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
     return ListViewInformation.listViewErrorBuilder(screenSize, object);
   }
 
+  _showSnackBar(BuildContext context) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('Location permissions are denied, you can'
+            'not attendance.'),
+        backgroundColor:
+        Colors.red,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -132,6 +145,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
 
   Widget _buildContent(BuildContext context, double screenWidth,
       Size screenSize, AttendanceProvider attendanceProvider) {
+
     if (_userData is UserModel && _attendanceData is List<AttendanceModel>) {
       final data = _userData as UserModel;
 
@@ -176,14 +190,15 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
             child: Consumer<AttendanceProvider>(builder: (BuildContext context,
                 AttendanceProvider attendanceProvider, _) {
 
+              if (attendanceProvider.locationDeniedForever == true) {
+                WidgetsBinding.instance.addPostFrameCallback((_) => _showSnackBar(context));
+              }
               if (attendanceProvider.errorResult != null
                   ) {
                 if (attendanceProvider.errorResult?.statusCode == 500) {
                   return _showErrorInformation(screenSize.height,
                       attendanceProvider.errorResult!.detail);
-                }
-
-                if (!attendanceProvider.isLoading) {
+                } else if (!attendanceProvider.isLoading) {
 
                   if ( attendanceProvider.errorResult?.statusCode == 400 ||
                       attendanceProvider.errorResult?.statusCode == 403 ) {
@@ -432,7 +447,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           const CircleBorder(),
                         ),
                         backgroundColor: MaterialStateProperty.all(Colors.white),
-                        shadowColor: MaterialStateProperty.all(Colors.black.withOpacity(0.5)), // Jika ingin menambahkan warna bayangan
+                        shadowColor: MaterialStateProperty.all(Colors.black.withOpacity(0.5)),
                       ),
                       onPressed: () {
                         _refreshData();
