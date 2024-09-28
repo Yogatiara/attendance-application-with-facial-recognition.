@@ -11,7 +11,7 @@ class AttendanceProvider with ChangeNotifier {
   File? _photoFile;
   AttendanceModel? _attendanceResult;
   ErrorModel? _errorResult;
-  bool _isLoading = false, _locationDeniedForever =false;
+  bool _isLoading = false, _isLoadingCam =false, _locationDeniedForever =false;
   String _action = "chekin";
   String? _lat, _long, _chekinTime,_chekoutTime, _dateTime, _error;
 
@@ -19,6 +19,7 @@ class AttendanceProvider with ChangeNotifier {
   AttendanceModel? get attendanceResult => _attendanceResult;
   ErrorModel? get errorResult => _errorResult;
   bool get isLoading => _isLoading;
+  bool get isLoadingCam => _isLoadingCam;
   String get action => _action;
   String? get error => _error;
   String? get chekinTime => _chekinTime;
@@ -89,7 +90,11 @@ class AttendanceProvider with ChangeNotifier {
 
 
     try {
-      await getCurrentLocation();
+      _isLoadingCam = true;
+
+      final location = await getCurrentLocation();
+      print("lat : ${location.latitude}, long : ${location.longitude}");
+      _isLoadingCam = false;
 
       final XFile? image = await picker.pickImage(source: ImageSource.camera);
       final LostDataResponse response = await picker.retrieveLostData();

@@ -344,6 +344,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                     MaterialStateProperty.all(Colors.white),
                                   ),
                                   onPressed: attendanceProvider.isLoading
+                                      || attendanceProvider.isLoadingCam
                                       ? null
                                       : () {
                                     attendanceProvider.attendance(
@@ -351,9 +352,17 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                                             .toString(),
                                         dateTimeProvider.formattedDate
                                             .toString());
-
+                                    attendanceProvider.errorResult = null;
+                                    attendanceProvider.attendanceResult = null;
                                   },
-                                  child: const Icon(
+                                  child: attendanceProvider.isLoadingCam? const SizedBox(
+                                    height: 50,
+                                    width: 50,
+                                    child: CircularProgressIndicator(
+                                      color: Colors.redAccent,
+                                      strokeWidth: 2,
+                                    ),
+                                  ): const Icon(
                                     Icons.camera_alt_outlined,
                                     size: 50,
                                     color: Colors.redAccent,
@@ -366,7 +375,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
           )
         ],
       );
-    } else if (_userData is ErrorModel && _attendanceData is ErrorModel) {
+    } else if (_userData is ErrorModel || _attendanceData is ErrorModel) {
       final error = _userData as ErrorModel;
       final errorAttendance = _attendanceData as ErrorModel;
 

@@ -3,7 +3,8 @@ from typing import Annotated, Optional
 from sqlalchemy.orm import Session
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from fastapi.responses import FileResponse
-import os
+from haversine import haversine, Unit
+
 
 
 from app.model import attendance_model, user_model
@@ -21,12 +22,15 @@ user_model.base.metadata.create_all(bind=engine)
 chekin_time = "07:30"
 chekout_time = "15:30"
 attendace_status = None
+main_location = (-1.149955, 116.862158)
 
 
 @router.post("/attendance/", status_code=status.HTTP_201_CREATED)
 async def attendace(
     action : Annotated[str, Form(...)],
     date_time: Annotated[str, Form(...)],
+    lat: Annotated[float, Form(...)],
+    long: Annotated[float, Form(...)],
     target_face_image: Annotated[UploadFile, File(...)],  
     db:Annotated[Session, Depends(get_db)], 
     credentials: HTTPAuthorizationCredentials = Depends(security)):
@@ -40,16 +44,34 @@ async def attendace(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid token"
     )
-    
+  
+  distance = haversine((lat, long), main_location )
 
+  print(round(distance,1))
+
+  roundDistance = round(distance,1)
+
+  if (roundDistance  > 0.2):
+    raise HTTPException(
+      status_code=status.HTTP_403_FORBIDDEN,
+      detail={
+        "message": "you are out of range",
+        "data": {
+          "range_exception" : True,
+          "distance": roundDistance
+      }
+    } 
+  )
+    
   
   existing_attendances = attendance_management.attendanceChecker(user_info["user_id"], current_date=date_time.split(",")[1] , db=db)
 
   if existing_attendances >= 2:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="You can only perform attendance twice per day"
-        )
+    raise HTTPException(
+        status_code=status.HTTP_403_FORBIDDEN,
+        detail="You can only perform attendance twice per day"
+        
+    )
   
   if existing_attendances == 1:
      action = "chekout"
@@ -58,9 +80,9 @@ async def attendace(
   succed = face_recognition.findSimilarity(contents, nim= user_info["nim"])
   if succed == False:
     raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Your face is unknown"
-    )
+      status_code=status.HTTP_400_BAD_REQUEST,
+      detail="Your face is unknown"
+)
   existing_user = db.query(user_model.User).filter(user_model.User.user_id == user_info["user_id"]).first()
 
   file_path = upload_photos.uploadTargetPhotos(target_face_image, contents, existing_user.user_name, user_info["nim"], action )
@@ -89,6 +111,9 @@ async def attendace(
     status= attendace_status,
     target_face_image = file_path, 
     date_time = date_time,
+    long = long,
+    lat = lat,
+    distance = roundDistance,
     user_id = user_info["user_id"]
   )
 
@@ -114,6 +139,9 @@ async def attendace(
             "status": db_attendance.status,
             "target_face_image": db_attendance.target_face_image,
             "date_time" : db_attendance.date_time,
+            "lat" : db_attendance.lat,
+            "log" : db_attendance.long,
+            "distance" : db_attendance.distance,
             "user_id": db_attendance.user_id
 
         }
