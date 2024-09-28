@@ -63,11 +63,15 @@ class AttendanceProvider with ChangeNotifier {
 
       if (permission == LocationPermission.whileInUse || permission == LocationPermission.always) {
         _locationDeniedForever = false;
+        _isLoadingCam = false;
+
         return Future.error('Location permissions are available');
       }
 
       if (permission == LocationPermission.deniedForever) {
         _locationDeniedForever = true;
+        _isLoadingCam = false;
+
         print("denied forever");
         return Future.error(
             'Location permissions are permanently denied, we cannot request permissions.');
@@ -93,8 +97,8 @@ class AttendanceProvider with ChangeNotifier {
       _isLoadingCam = true;
 
       final location = await getCurrentLocation();
-      print("lat : ${location.latitude}, long : ${location.longitude}");
       _isLoadingCam = false;
+      print("lat : ${location.latitude}, long : ${location.longitude}");
 
       final XFile? image = await picker.pickImage(source: ImageSource.camera);
       final LostDataResponse response = await picker.retrieveLostData();
@@ -113,7 +117,11 @@ class AttendanceProvider with ChangeNotifier {
 
 
           var res = await Attendance.attendance(
-              action, imageMap, _dateTime!, authToken!);
+              action, imageMap, _dateTime!, location.latitude, location.longitude, authToken!);
+
+          // var res = await Attendance.attendance(
+          //     action, imageMap, "1 Oct 2024",
+          //     location.latitude, location.longitude,  authToken!);
 
 
           if (res is AttendanceModel) {

@@ -43,6 +43,7 @@ async def attendace(
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid token"
+        
     )
   
   distance = haversine((lat, long), main_location )
@@ -51,17 +52,7 @@ async def attendace(
 
   roundDistance = round(distance,1)
 
-  if (roundDistance  > 0.2):
-    raise HTTPException(
-      status_code=status.HTTP_403_FORBIDDEN,
-      detail={
-        "message": "you are out of range",
-        "data": {
-          "range_exception" : True,
-          "distance": roundDistance
-      }
-    } 
-  )
+
     
   
   existing_attendances = attendance_management.attendanceChecker(user_info["user_id"], current_date=date_time.split(",")[1] , db=db)
@@ -72,6 +63,19 @@ async def attendace(
         detail="You can only perform attendance twice per day"
         
     )
+  
+  if (roundDistance  > 0.2):
+    raise HTTPException(
+      status_code=status.HTTP_403_FORBIDDEN,
+      detail= "you are out of range",
+    #   detail={
+    #     "message": "you are out of range",
+    #     "data": {
+    #       "range_exception" : True,
+    #       "distance": roundDistance
+    #   }
+    # } 
+  )
   
   if existing_attendances == 1:
      action = "chekout"

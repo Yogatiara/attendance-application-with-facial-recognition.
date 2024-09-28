@@ -199,14 +199,16 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                   return _showErrorInformation(screenSize.height,
                       attendanceProvider.errorResult!.detail);
                 } else if (!attendanceProvider.isLoading) {
+                  print("jalnnn broo");
 
                   if ( attendanceProvider.errorResult?.statusCode == 400 ||
                       attendanceProvider.errorResult?.statusCode == 403 ) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      _showDialog(context, attendanceProvider.errorResult, true);
+                    });
 
                   }
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    _showDialog(context, attendanceProvider.errorResult, true);
-                  });
+
                 }
               } else if (attendanceProvider.attendanceResult != null
                 ) {
@@ -226,8 +228,8 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           FontStyle.buildText(
                               "Check in", screenWidth / 20, Colors.white),
                           FontStyle.buildText(
-                              _attendanceProvider.chekinTime ??
-                              attendanceProvider.chekinTime ?? "--/--", screenWidth / 20, Colors.white)
+                              attendanceProvider.chekinTime ??
+                              _attendanceProvider.chekinTime ?? "--/--", screenWidth / 20, Colors.white)
                         ],
                       )),
                   Expanded(
@@ -237,8 +239,7 @@ class _AttendanceScreenState extends State<AttendanceScreen> {
                           FontStyle.buildText(
                               "Check out", screenWidth / 20, Colors.white),
                           FontStyle.buildText(
-                              _attendanceProvider.chekoutTime ??
-                                  attendanceProvider.chekoutTime ?? "--/--", screenWidth / 20, Colors.white)
+                               "--/--", screenWidth / 20, Colors.white)
                         ],
                       ))
                 ],

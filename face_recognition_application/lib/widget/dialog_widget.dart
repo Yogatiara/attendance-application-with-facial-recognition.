@@ -19,7 +19,10 @@ class DialogWidget {
 
                 children: [
                   Image.asset(
-                   object.statusCode == 400?  "assets/icons/face-unknown.png":
+                    object.detail.toString() == "you are out of range" && object.statusCode == 403?
+                    "assets/icons/not-found.png":
+                   object.statusCode == 400?
+                   "assets/icons/face-unknown.png":
                    "assets/images/forbidden_attendance.png",
                     height: object.statusCode == 400?200: 300,
                     width: object.statusCode == 400?200: 300,
@@ -36,17 +39,13 @@ class DialogWidget {
                   const SizedBox(
                     height: 30,
                   ),
-                  object.statusCode == 400
-                      ? Text(
-                          "Note: Please take a photo of your face again",
-                          style: FontStyle.textStyle(
-                              15, Colors.black45, FontWeight.w400),
-                        )
-                      : Text(
-                    "Note: Please take attendance tomorrow  ",
-                    style: FontStyle.textStyle(
-                        15, Colors.black45, FontWeight.w400),
-                  ),
+                Text(
+                  "Note: ${object.statusCode == 400?"Please take a photo of your face again":
+                  object.detail.toString() == "you are out of range" && object.statusCode == 403?
+                  "make sure you enter the campus area": "Please take attendance tomorrow "}",
+                  style: FontStyle.textStyle(15, Colors.black45, FontWeight.w400),
+                ),
+
                   const SizedBox(height: 40,),
                   SizedBox(
 

@@ -8,12 +8,18 @@ class AttendanceModel {
   int? userId;
   String? userName;
   int? nim;
+  double? lat;
+  double? long;
+  double? distance;
   String message;
 
   AttendanceModel({
     required this.message,
     this.userName,
     this.nim,
+    this.lat,
+    this.long,
+    this.distance,
     this.action,
     this.status,
     this.targetFaceImage,

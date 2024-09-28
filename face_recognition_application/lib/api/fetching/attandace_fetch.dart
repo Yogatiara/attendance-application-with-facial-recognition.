@@ -11,12 +11,14 @@ class Attendance {
   }
 
   static Future<dynamic> attendance(String action, File targetFaceImage,
-      String dateTime, String token) async {
+      String dateTime, double lat, double long, String token) async {
     try {
       var formData = FormData.fromMap({
         'action': action,
         'target_face_image': await MultipartFile.fromFile(targetFaceImage.path),
         'date_time': dateTime,
+        'lat' :lat,
+        'long' :long,
       });
 
       var res = await Dio().post(
@@ -38,7 +40,11 @@ class Attendance {
             action: res.data["data"]["action"],
             status: res.data["data"]["status"],
             targetFaceImage: targetFaceImage,
-            dateTime: dateTime);
+            dateTime: dateTime,
+            lat: res.data["data"]["lat"],
+            long: res.data["data"]["long"],
+            distance: res.data["data"]["distance"],
+        );
       }
     } on DioException catch (e) {
       if (e.response != null) {
@@ -48,7 +54,11 @@ class Attendance {
         } else {
           return ErrorModel(
               statusCode: e.response?.statusCode,
-              detail: e.response?.data["detail"]);
+              detail: e.response?.data["detail"],
+              // data: e.response?.data["detail"]["distance"],
+              // dataBool: e.response?.data["detail"]["range_exception"]
+          )
+          ;
         }
       }
     } catch (e) {
